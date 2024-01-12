@@ -29,7 +29,7 @@ const styles = {
     display: "block",
     width: "100%",
     border: "none",
-    borderBottom: "1px solid red",
+    borderBottom: "1px solid #CDD1D0",
     padding: "5px"
   },
   
