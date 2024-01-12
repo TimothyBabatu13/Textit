@@ -18,10 +18,14 @@ const SignUp = () => {
         }))
     }
 
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(text)
+    }
   return (
     <section className="overall--container">
         <GoBack />
-        <form style={styles.form} action="" >
+        <form onSubmit={handleSubmit} style={styles.form} action="" >
             <h5 style={styles.h5}>Sign up with Email</h5>
             <p style={styles.p}>Get chatting with friends and family today by signing up for our chat app!</p>
             
@@ -40,7 +44,7 @@ const SignUp = () => {
               type="email"
               value={text.email}
               onChange={handleChange}
-                labeText="Your email" 
+              labeText="Your email" 
             />
             
             <Input 
@@ -60,7 +64,7 @@ const SignUp = () => {
                 value={text.confirmPassword}
                 onChange={handleChange}    
             />
-            <button style={styles.button} type="submit">Create an account</button>
+            <button className="cursor--pointer" style={styles.button} type="submit">Create an account</button>
         </form>
     </section>
   )

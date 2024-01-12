@@ -117,9 +117,9 @@ const Home = () => {
 }
 
 const styles = {
-    container:{
-        background: "url(<path-to-image>), lightgray 50% / cover no-repeat"
-    },
+    // container:{
+    //     background: "url(<path-to-image>), lightgray 50% / cover no-repeat"
+    // },
     header: {
         display: "flex",
         alignItems: "center",

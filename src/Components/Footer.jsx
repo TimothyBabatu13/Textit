@@ -1,40 +1,54 @@
-import message from "../assets/Icons/Message.svg";
+import messageActive from "../assets/Icons/Message.svg";
 import call from "../assets/Icons/Call.svg";
 import conatct from "../assets/Icons/user.svg";
 import setting from "../assets/Icons/settings.svg"
 import FooterImage from "./FooterImage";
+import { useState } from "react";
 const Footer = () => {
+
+    const [active, isActive] = useState("message");
+    const handleActive = (e)=>{
+        isActive(e);
+    }
+
     const data = [
         {
-            img: message,
-            text: "Message"
+            activeImg: messageActive,
+            text: "Message",
+            img: ""
         },
         {
             img: call,
-            text: "Calls"
+            text: "Calls",
+            activeImg: ""
         },
         {
             img: conatct,
-            text: "Contacts"
+            text: "Contacts",
+            activeImg: ""
         },
         {
             img: setting,
-            text: "Settings"
+            text: "Settings",
+            activeImg: ""
         }
     ]
+
   return (
     <footer style={styles.footer}>
         {data.map((item, id) =>(
             <FooterImage
                 key={id}
-                img={item.img}
+                img={isActive === item.text.toLowerCase() ? item.activeImg : item.img}
                 text={item.text}
+                onClick={()=>handleActive(item.text.toLowerCase())}
+                active={active}
             />
         ))}
     </footer>
   )
 }
-
+//active color: #3D4A7A
 const styles = {
     footer: {
         display: "flex",

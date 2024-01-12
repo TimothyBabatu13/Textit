@@ -16,7 +16,7 @@ const SendMessage = () => {
     <div style={styles.sendMessageContainer}>
         <img className="cursor--pointer" onClick={handleModal} src={share} alt="file icon" />
         <div style={styles.userInput}>
-            <textarea style={{width: "100%", padding: "10px"}} name="" id="" cols="30" rows="10"></textarea>
+            <textarea style={{width: "100%", padding: "10px", resize: "none", height: "20px"}} name="" id="" cols="30" rows="10"></textarea>
             <img className="cursor--pointer" style={styles.fileIcons} src={files} alt="" />
         </div>
         <div style={styles.rightButtons}>

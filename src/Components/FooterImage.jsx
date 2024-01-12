@@ -1,7 +1,8 @@
 
-const FooterImage = ({ img, text }) => {
+const FooterImage = ({ img, text, onClick }) => {
+
   return (
-    <div style={styles.container} className="cursor--pointer">
+    <div onClick={onClick} style={styles.container} className="cursor--pointer">
         <img 
           src={img} 
           alt={`${text} icon`} 

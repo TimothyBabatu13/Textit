@@ -29,6 +29,7 @@ const styles = {
     display: "block",
     width: "100%",
     border: "none",
+    outline: "none",
     borderBottom: "1px solid #CDD1D0",
     padding: "5px"
   },
