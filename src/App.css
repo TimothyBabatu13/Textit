@@ -1,0 +1,27 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.container{
+  margin: auto;
+  height: 100vh;
+  overflow-x: hidden;
+}
+.overall--container{
+  padding: 0 10px;
+}
+.cursor--pointer{
+  cursor: pointer;
+}
+.signin--input:active, .signin--input:focus{
+  border: none !important;
+}
+.list--user--message:last-child{
+  margin-bottom: 50px !important;
+}
+.modal--element{
+  padding: 10px 0;
+  border-bottom: 1px solid red;
+  flex: 2;
+}
