@@ -14,14 +14,11 @@
 .cursor--pointer{
   cursor: pointer;
 }
-.signin--input:active, .signin--input:focus{
-  border: none !important;
-}
 .list--user--message:last-child{
   margin-bottom: 50px !important;
 }
 .modal--element{
   padding: 10px 0;
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid #F5F6F6;
   flex: 2;
 }
