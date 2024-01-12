@@ -71,13 +71,15 @@ const styles = {
   },
   h5:{
     textAlign: "center",
-    fontSize: "1.5em"
+    fontSize: "1.5em",
+    color: "#3D4A7A",
   },
   p:{
     textAlign: "center",
     marginTop: "20px",
     fontSize: "1em",
     fontWeight: "lighter",
+    color: "#797C7B",
   },
   button: {
     display: "block",
@@ -85,7 +87,9 @@ const styles = {
     marginTop: "10%",
     padding: "10px 0",
     borderRadius: "10px",
-    color: "white"
+    color: "white",
+    background: "linear-gradient(271deg, #43116A 36.61%, #68E1FD 106.23%)",
+    border: "none"
   },
 }
 export default SignUp

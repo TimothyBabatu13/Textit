@@ -118,7 +118,7 @@ const Home = () => {
 
 const styles = {
     container:{
-        // background: "red"
+        background: "url(<path-to-image>), lightgray 50% / cover no-repeat"
     },
     header: {
         display: "flex",
