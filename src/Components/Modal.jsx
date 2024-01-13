@@ -2,15 +2,19 @@ import poll from "../assets/Icons/poll.svg";
 import location from "../assets/Icons/location.svg";
 import contact from "../assets/Icons/contact.svg";
 import media from "../assets/Icons/media.svg";
+import remove from "../assets/Icons/remove.svg";
+import doc from "../assets/Icons/doc.svg";
+import camera from "../assets/Icons/camera.svg";
+
 const Modal = ({ closeModal }) => {
     const data = [
         {
-            img: media,
+            img: camera,
             text: "Camera",
             desc: ""
         },
         {
-            img: media,
+            img: doc,
             text: "Documents",
             desc: "Share your files"
         },
@@ -39,8 +43,8 @@ const Modal = ({ closeModal }) => {
   return (
     <section style={styles.container}>
         <div style={styles.header}>
-            {/* <img src="" alt="" /> */}
-            <p className="cursor--pointer" onClick={closeModal}>X</p>
+            <img src={remove} onClick={closeModal} className="cursor--pointer" alt="remove icon" />
+            {/* <p className="cursor--pointer" onClick={closeModal}></p> */}
             <h5>Share Content</h5>
             <div></div>
         </div>
@@ -64,7 +68,7 @@ const styles = {
         padding: "20px",
         bottom: "0",
         left: 0,
-        background: "green",
+        background: "grey",
         borderTopRightRadius: "30px",
         borderTopLeftRadius: "30px",
     },

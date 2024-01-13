@@ -37,9 +37,10 @@ const styles = {
     ...commonStyles,
     position: "fixed",
     width: "100%",
-    padding: "0 10px",
+    padding: "10px",
     left: 0,
-    top: 0
+    top: 0,
+    background: "#fff"
 },
 userDetails : {
     ...commonStyles,

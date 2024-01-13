@@ -3,6 +3,10 @@ import SendMessage from "../Components/SendMessage";
 import img from "../assets/images/user.png";
 import ViewMessage from "../Components/ViewMessage";
 import imgMessage from "../assets/images/groupchatImage.png";
+import user1 from "../assets/images/friend1.png";
+import user2 from "../assets/images/friend2.png";
+import user3 from "../assets/images/friend3.png";
+
 const GroupChat = () => {
   const message = [
     {
@@ -11,7 +15,8 @@ const GroupChat = () => {
       timeSent: "09:25 AM",
       type: "text",
       senderName: "Hafizur Rahman",
-      img: ""
+      img: "",
+      senderImg: user1,
     },
     {
       senderId: 3,
@@ -19,7 +24,8 @@ const GroupChat = () => {
       timeSent: "09:25 AM",
       type: "text",
       senderName: "Majharul Haque",
-      img: ""
+      img: "",
+      senderImg: user2,
     },
     {
       senderId: 3,
@@ -27,7 +33,8 @@ const GroupChat = () => {
       timeSent: "09:25 AM",
       type: "image",
       senderName: "Majharul Haque",
-      img: ""
+      img: "",
+      senderImg: user3,
     },
     {
       senderId: 4,
@@ -35,14 +42,16 @@ const GroupChat = () => {
       timeSent: "09:25 AM",
       type: "audio",
       senderName: "Annel Ellison",
-      img: ""
+      img: "",
+      senderImg: user3,
     },
     {
       senderId: 1,
       content: "You did your job well",
       timeSent:"09:25 AM",
       type: "text",
-      senderName: "You"
+      senderName: "You",
+      senderImg: img,
     },
   ]
   return (
@@ -50,7 +59,7 @@ const GroupChat = () => {
         <ChatHeader img={img} />
         <div style={styles.messageContainer} >
           {message.map((msg, id) => (
-          <ViewMessage key={id} data={msg} />
+          <ViewMessage key={id} data={msg} group/>
           ))}        
         </div>
         <SendMessage />

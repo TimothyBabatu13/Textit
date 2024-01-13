@@ -3,20 +3,34 @@ import microphone from "../assets/Icons/microphone.svg";
 import vector from "../assets/Icons/Vector.svg";
 import share from "../assets/Icons/share.svg";
 import Modal from "./Modal";
-import { useState } from "react";
-const SendMessage = () => {
-    const [openModal, setOpenModal] = useState(false)
+import { useEffect, useState } from "react";
+const SendMessage = ({ id }) => {
+
+    const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
+    const [openModal, setOpenModal] = useState(false);
+
+    useEffect(()=>{
+        localStorage.setItem(id, JSON.stringify(text));
+    },[text])
+    
+
+    const handleChange = (e) =>{
+        setText(e.target.value);
+    }
+
     const handleModal = ()=>{
         setOpenModal(true)
     }
+    
     const closeModal = ()=>{
         setOpenModal(false)
     }
+
   return (
     <div style={styles.sendMessageContainer}>
         <img className="cursor--pointer" onClick={handleModal} src={share} alt="file icon" />
         <div style={styles.userInput}>
-            <textarea style={{width: "100%", padding: "10px", resize: "none", height: "20px"}} name="" id="" cols="30" rows="10"></textarea>
+            <textarea value={text} onChange={handleChange} style={{width: "100%", padding: "10px", resize: "none", height: "40px", borderRadius: "10px"}} name="" id="" cols="30" rows="10"></textarea>
             <img className="cursor--pointer" style={styles.fileIcons} src={files} alt="" />
         </div>
         <div style={styles.rightButtons}>

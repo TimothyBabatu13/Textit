@@ -3,9 +3,11 @@ import ChatHeader from "../Components/ChatHeader";
 import SendMessage from "../Components/SendMessage";
 import img from "../assets/images/user.png";
 import ViewMessage from "../Components/ViewMessage";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
-
+    const { id } = useParams();
+   //id wiil be used to check for messages related to the specific user
     const message = [
         {
             senderId: 1,
@@ -53,10 +55,10 @@ const Chat = () => {
         <ChatHeader img={img} />
         <div style={styles.messageContainer}>
             {message.map((msg, id) =>(
-                <ViewMessage key={id} data={msg} />
+                <ViewMessage key={id} data={msg} group={false} />
             ))}
         </div>
-        <SendMessage />
+        <SendMessage id={id} />
       
     </section>
   )

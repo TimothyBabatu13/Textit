@@ -1,5 +1,8 @@
 import { useState } from "react";
-import socialMedia from "../assets/Icons/Social media-uihut.svg";
+import facebook from "../assets/Icons/facebook.svg";
+import apple from "../assets/Icons/apple.svg";
+import google from "../assets/Icons/goggle.svg";
+
 import Input from "../Components/Input";
 import GoBack from "../Components/GoBack";
 
@@ -20,6 +23,10 @@ const Login = () => {
   const handleSubmit = (e) =>{
     e.preventDefault();
   }
+
+  const handleResetPassword = (e) =>{
+    e.preventDefault();
+  }
   
   return (
     <section className="overall--container">
@@ -28,7 +35,9 @@ const Login = () => {
             <h5 style={styles.h5}>Log in to Chatbox</h5>
             <p style={styles.p}>Welcome back! Sign in using your social account or email to continue as</p>
             <div style={styles.socialMediaImageContainer}>
-              <img className="cursor--pointer" src={socialMedia} alt="social media" />
+              <img className="cursor--pointer" src={facebook} alt="facebook logo" />
+              <img className="cursor--pointer" src={google} alt="goggle logo" />
+              <img className="cursor--pointer" src={apple} alt="apple logo" />
             </div>
             <div style={styles.or}>
               <div style={styles.line}></div>
@@ -54,7 +63,7 @@ const Login = () => {
               labeText="Password"
             />
             <button className="cursor--pointer" style={styles.button} type="submit">Log in</button>
-            <a style={styles.link} href="">Forgot password?</a>
+            <a style={styles.link} onClick={handleResetPassword} href="">Forgot password?</a>
         </form>
     </section>
   )

@@ -4,18 +4,22 @@ import conatct from "../assets/Icons/user.svg";
 import setting from "../assets/Icons/settings.svg"
 import FooterImage from "./FooterImage";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
 
     const [active, isActive] = useState("message");
+    const navigate = useNavigate();
+
     const handleActive = (e)=>{
         isActive(e);
+        navigate(`/${e}`);
     }
 
     const data = [
         {
             activeImg: messageActive,
             text: "Message",
-            img: ""
+            img: messageActive
         },
         {
             img: call,
