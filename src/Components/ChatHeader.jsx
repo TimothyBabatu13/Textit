@@ -1,6 +1,6 @@
 import GoBack from "./GoBack";
 import call from "../assets/Icons/Call2.svg";
-import video from "../assets/Icons/video.svg";
+import video from "../assets/Icons/Video.svg";
 
 const ChatHeader = ({ data }) => {
 
