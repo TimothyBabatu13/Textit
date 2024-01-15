@@ -4,28 +4,30 @@ import vector from "../assets/Icons/Vector.svg";
 import share from "../assets/Icons/share.svg";
 import Modal from "./Modal";
 import { useEffect, useState } from "react";
-const SendMessage = ({ id }) => {
+const SendMessage = ({ id, handleBackground }) => {
 
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
     const [openModal, setOpenModal] = useState(false);
-
+    
     useEffect(()=>{
         localStorage.setItem(id, JSON.stringify(text));
     },[text])
     
-
     const handleChange = (e) =>{
         setText(e.target.value);
     }
 
     const handleModal = ()=>{
-        setOpenModal(true)
+        setOpenModal(true);
+        handleBackground(true)
     }
     
     const closeModal = ()=>{
-        setOpenModal(false)
+        setOpenModal(false);
+        handleBackground(false)
     }
 
+    
   return (
     <div style={styles.sendMessageContainer}>
         <img className="cursor--pointer" onClick={handleModal} src={share} alt="file icon" />
@@ -52,7 +54,8 @@ const styles = {
         left: 0,
         width: "100%",
         padding: "25px 10px",
-        background: "red",
+        background: "white",
+        borderTop: "1px solid rgb(205, 209, 208)"
     },
     userInput : {
         // flex: 2,

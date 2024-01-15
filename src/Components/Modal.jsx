@@ -68,7 +68,7 @@ const styles = {
         padding: "20px",
         bottom: "0",
         left: 0,
-        background: "grey",
+        background: "white",
         borderTopRightRadius: "30px",
         borderTopLeftRadius: "30px",
     },

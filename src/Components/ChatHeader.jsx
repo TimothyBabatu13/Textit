@@ -2,21 +2,23 @@ import GoBack from "./GoBack";
 import call from "../assets/Icons/Call2.svg";
 import video from "../assets/Icons/video.svg";
 
-const ChatHeader = ({ img }) => {
+const ChatHeader = ({ data }) => {
 
-  const isActive = true;
+    const {isActive, img, name} = data;
+
+//   const isActive = true;
 
   return (
     <header style={styles.header}>
             <GoBack />
             <div className="cursor--pointer" style={styles.userDetails}>
                 <div style={styles.receipientImgContainer}>
-                    <img src={img} alt="reciepient image" />
+                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} src={img} alt="reciepient image" />
                     {isActive && <div style={styles.isActive}></div>}
                 </div>
                 <div>
-                    <h3>Jhon Abraham</h3>
-                    <h5>Active now</h5>
+                    <h3>{name}</h3>
+                    <h5>{isActive ? "Active now": "Offline"}</h5>
                 </div>
             </div>
             <div style={styles.call}>
@@ -56,8 +58,8 @@ isActive: {
     background: "green",
     borderRadius: "50%",
     position: "absolute",
-    right: 0,
-    bottom: 0
+    right: "2px",
+    bottom: "7px"
 },
 call: {
     marginLeft: "auto"

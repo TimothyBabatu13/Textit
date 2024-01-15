@@ -1,5 +1,5 @@
 
-const FooterImage = ({ img, text, onClick }) => {
+const FooterImage = ({ img, text, onClick, isLight }) => {
 
   return (
     <div onClick={onClick} style={styles.container} className="cursor--pointer">
@@ -7,7 +7,7 @@ const FooterImage = ({ img, text, onClick }) => {
           src={img} 
           alt={`${text} icon`} 
         />
-        {text && <h6>{text}</h6>}
+        {text && <h6 style={{fontWeight: isLight ? "lighter" : "bolder"}}>{text}</h6>}
     </div>
   )
 }

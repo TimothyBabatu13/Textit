@@ -1,6 +1,9 @@
 import { useState } from "react";
 import GoBack from "../Components/GoBack";
 import Input from "../Components/Input";
+import app from "../Firebase"
+import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { getFirestore, addDoc, collection} from "firebase/firestore";
 
 const SignUp = () => {
 
@@ -10,7 +13,10 @@ const SignUp = () => {
         password: "",
         confirmPassword: ""
     })
-
+    const auth = getAuth();
+    const db = getFirestore(app);
+    const userCollection = collection(db, "users");
+    
     const handleChange = e => {
         setText(prev =>({
             ...prev,
@@ -18,9 +24,33 @@ const SignUp = () => {
         }))
     }
 
+    //I should send the userId together too with the data sent to firestore.
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(text)
+      if(text.password !== text.confirmPassword) return console.log("I can't process this.");
+
+      createUserWithEmailAndPassword(auth, text.email, text.password)
+      .then((userCredential) => { 
+        console.log("user account created succesfully", userCredential);
+        updateProfile(auth.currentUser, {
+          displayName: text.name
+        })
+        .then(success => {
+          console.log("updated user's name...", success)
+          addDoc(userCollection, {
+            name: text.name,
+            email: text.email,
+          })
+          .then(success => console.log("data sent successfully.", success))
+          .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+      });
     }
   return (
     <section className="overall--container">

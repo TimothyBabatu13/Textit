@@ -5,6 +5,7 @@ import google from "../assets/Icons/goggle.svg";
 
 import Input from "../Components/Input";
 import GoBack from "../Components/GoBack";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   
@@ -12,7 +13,7 @@ const Login = () => {
     email: "",
     password: ""
   })
-
+  const navigate = useNavigate();
   const handleChange = (e) =>{
     setText(prev =>({
       ...prev,
@@ -22,6 +23,7 @@ const Login = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+    navigate("/message");
   }
 
   const handleResetPassword = (e) =>{

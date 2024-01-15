@@ -1,17 +1,24 @@
 import messageActive from "../assets/Icons/Message.svg";
 import call from "../assets/Icons/Call.svg";
 import conatct from "../assets/Icons/user.svg";
-import setting from "../assets/Icons/settings.svg"
+import setting from "../assets/Icons/settings.svg";
+import activeMessage from "../assets/Icons/activeMessage.svg";
+import activeCall from "../assets/Icons/activeCall.svg";
+import activeSetting from "../assets/Icons/activeSettings.svg";
+import activeContact from "../assets/Icons/activeUser.svg";
 import FooterImage from "./FooterImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Footer = () => {
 
-    const [active, isActive] = useState("message");
+    const location = window.location.pathname.split("/")[1] 
+
+    const [isActive, setIsActive] = useState(location);
     const navigate = useNavigate();
 
     const handleActive = (e)=>{
-        isActive(e);
+        setIsActive(e);
+    
         navigate(`/${e}`);
     }
 
@@ -19,22 +26,22 @@ const Footer = () => {
         {
             activeImg: messageActive,
             text: "Message",
-            img: messageActive
+            img: activeMessage
         },
         {
             img: call,
             text: "Calls",
-            activeImg: ""
+            activeImg: activeCall
         },
         {
             img: conatct,
             text: "Contacts",
-            activeImg: ""
+            activeImg: activeContact
         },
         {
             img: setting,
             text: "Settings",
-            activeImg: ""
+            activeImg: activeSetting
         }
     ]
 
@@ -46,7 +53,7 @@ const Footer = () => {
                 img={isActive === item.text.toLowerCase() ? item.activeImg : item.img}
                 text={item.text}
                 onClick={()=>handleActive(item.text.toLowerCase())}
-                active={active}
+                isLight={isActive === item.text.toLowerCase() ? false : true}
             />
         ))}
     </footer>
