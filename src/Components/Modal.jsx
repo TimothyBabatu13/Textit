@@ -4,7 +4,7 @@ import contact from "../assets/Icons/contact.svg";
 import media from "../assets/Icons/media.svg";
 import remove from "../assets/Icons/remove.svg";
 import doc from "../assets/Icons/doc.svg";
-import camera from "../assets/Icons/camera.svg";
+import camera from "../assets/Icons/Camera.svg";
 
 const Modal = ({ closeModal }) => {
     const data = [
