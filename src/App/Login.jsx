@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import facebook from "../assets/Icons/facebook.svg";
 import apple from "../assets/Icons/apple.svg";
 import google from "../assets/Icons/goggle.svg";
@@ -6,14 +6,22 @@ import google from "../assets/Icons/goggle.svg";
 import Input from "../Components/Input";
 import GoBack from "../Components/GoBack";
 import { useNavigate } from "react-router-dom";
+import app from "../Firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import App from "../App";
 
 const Login = () => {
-  
+
   const [text, setText] = useState({
     email: "",
     password: ""
   })
+  const Context = App.Context;
+  const context = useContext(Context);
+  let { userUID } = context;
+
   const navigate = useNavigate();
+  const auth = getAuth();
   const handleChange = (e) =>{
     setText(prev =>({
       ...prev,
@@ -23,7 +31,20 @@ const Login = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+    signInWithEmailAndPassword(auth, text.email, text.password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    console.log("User signed in");
+    userUID = user.uid;
     navigate("/message");
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode, errorMessage)
+  });
+
+    
   }
 
   const handleResetPassword = (e) =>{

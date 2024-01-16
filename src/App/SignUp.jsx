@@ -33,13 +33,15 @@ const SignUp = () => {
       .then((userCredential) => { 
         console.log("user account created succesfully", userCredential);
         updateProfile(auth.currentUser, {
-          displayName: text.name
+          displayName: text.name,
         })
         .then(success => {
           console.log("updated user's name...", success)
           addDoc(userCollection, {
             name: text.name,
             email: text.email,
+            img: "",
+            userUID: auth.currentUser.uid
           })
           .then(success => console.log("data sent successfully.", success))
           .catch(err => console.log(err))

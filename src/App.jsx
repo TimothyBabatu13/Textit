@@ -9,9 +9,16 @@ import Contact from './App/Contact';
 import Setting from './App/Setting';
 import Error from './App/Error';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { createContext } from 'react';
+
+const Context = createContext();
 function App() {
- 
+  const data = {
+    userUID: "",
+    recepientUID: ""
+  }
   return (
+    <Context.Provider value={data}>
     <div className='container'>
       <BrowserRouter>
         <Routes>
@@ -27,7 +34,8 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
+    </Context.Provider>
   )
 }
 
-export default App
+export default {App, Context}
