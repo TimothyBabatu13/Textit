@@ -8,9 +8,19 @@ import friend1 from "../assets/images/friend1.png";
 import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
+import app from "../Firebase";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 
+import App from "../App";
+import { useContext, useEffect, useState } from "react";
 const Message = () => {
+    const [headerDetails, setHeaderDetails] = useState("")
     const navigate = useNavigate();
+    const db = getFirestore(app);
+    const context = App.Context;
+    const Context = useContext(context);
+    const { userUID } = Context;
+
     const data = [
         {
             img: friend1,
@@ -118,12 +128,23 @@ const Message = () => {
         navigate(`/chat/${id}`);
     }
 
+    useEffect(()=>{
+        const getData = async ()=>{
+            const q = query(collection(db, "users"), where("userUID", "==", userUID));
+            const querySnapshot = await getDocs(q);
+            console.log(querySnapshot.forEach((doc) => {
+                setHeaderDetails(doc.data())}))
+        }
+        getData()
+    },[userUID])
+
+    console.log(headerDetails)
   return (
     <Background>
         <section style={styles.container} className="overall--container">
             <Header 
                 text="Home"
-                img={user} 
+                img={headerDetails && headerDetails.img || user} 
             />
             <div className="home--status" style={styles.status}>
                 <div className="cursor--pointer">
