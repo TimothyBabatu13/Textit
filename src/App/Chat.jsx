@@ -139,7 +139,7 @@ const Chat = () => {
             type: "audio"
         }
     ]
-
+   
     return (
     <section className="overall--container" style={{background: background ? "black" : ""}}>
         <ChatHeader data={data} />
@@ -157,7 +157,8 @@ const Chat = () => {
 
 const styles = {
     messageContainer : {
-        marginTop : " 100px"
+        marginTop : " 100px",
+        paddingBottom: "100px"
     },
 }
 

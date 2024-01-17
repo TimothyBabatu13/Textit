@@ -1,6 +1,6 @@
 
-
 const ViewMessage = ({ data, group }) => {
+
     const msg = data;
     const myId = 1;
     // console.log(data)

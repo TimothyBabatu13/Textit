@@ -41,7 +41,8 @@ const SignUp = () => {
             name: text.name,
             email: text.email,
             img: "",
-            userUID: auth.currentUser.uid
+            userUID: auth.currentUser.uid,
+            friends: []
           })
           .then(success => console.log("data sent successfully.", success))
           .catch(err => console.log(err))

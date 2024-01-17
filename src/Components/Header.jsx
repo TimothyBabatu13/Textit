@@ -1,15 +1,44 @@
+import { useState } from "react";
+import app from "../Firebase";
 import search from "../assets/Icons/Search.svg";
-const Header = ({  text, img, data }) => {
+import { getFirestore, arrayUnion, updateDoc, doc } from "firebase/firestore";
+const Header = ({  text, img, data, id }) => {
 
+  const [show, setShow] = useState(false)
+  const db = getFirestore(app);
   const handleFilter = ()=>{
-    console.log(data)
+    setShow(prev => !prev)
+  }
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+  
+      const data = async ()=>{
+          console.log("data about to updaye");
+          const washingtonRef = doc(db, "users", id);
+          await updateDoc(washingtonRef, {
+              friends: arrayUnion("50000")
+            }).then((success)=>{
+              console.log("success", success)
+            }).catch(err => console.log("err", err))
+      }
+      data()
+  
   }
   return (
-    <header style={styles.header}>
+    <section>
+      <header style={styles.header}>
         <img className="cursor--pointer" onClick={handleFilter} style={styles.searchIcon} height="20" width="20" src={search} alt="search icon" />
         <h4 style={{fontWeight:"300"}}>{text}</h4>
         <img className="cursor--pointer" height="50" width="50" src={img} alt="user image" />
     </header>
+    {show && 
+    <form action="" onSubmit={handleSubmit}>
+      <input type="text" name="" id="" />
+      <input type="submit" value="Search" />
+    </form>
+    }
+    </section>
   )
 }
 

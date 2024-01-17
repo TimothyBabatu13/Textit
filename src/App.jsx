@@ -9,36 +9,46 @@ import Contact from './App/Contact';
 import Setting from './App/Setting';
 import Error from './App/Error';
 import app from './Firebase';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, } from 'react-router-dom'
 import { createContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {  getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Context = createContext();
 function App() {
   const [text, setText] = useState({
     userUID: "",
-    recepientUID: ""
+    recepientUID: "",
+    isActive: "",
   })
-  const auth = getAuth();
 
-
+  const auth = getAuth()
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
-        setText(prev=>({
+        const uid = user.uid;  
+        changeValue(uid)
+        setText(prev => ({
           ...prev,
-          userUID: uid
+          isActive: true
         }))
-        console.log("user signed in");
       } else {
-        console.log("user is not signed in")
+        setText(prev => ({
+          ...prev,
+          isActive: false
+        }))
       }
     });
   }, [])
   
+  const changeValue = (userUID, recepientUID) => {
+    setText(prev =>({
+      ...prev,
+      userUID: userUID,
+      recepientUID: recepientUID || "" 
+    }))
+  }
   return (
-    <Context.Provider value={text}>
+    <Context.Provider value={{text, changeValue}}>
     <div className='container'>
       <BrowserRouter>
         <Routes>
