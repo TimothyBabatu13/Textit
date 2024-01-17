@@ -9,7 +9,7 @@ import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
 import app from "../Firebase";
-import { getFirestore, collection, query, where, getDocs, arrayUnion, updateDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, query, where, getDocs, arrayUnion, updateDoc, doc, onSnapshot } from "firebase/firestore";
 
 import App from "../App";
 import { useContext, useEffect, useState } from "react";
@@ -17,12 +17,16 @@ const Message = () => {
     const [headerDetails, setHeaderDetails] = useState("");
     const [idOfDocument, setIdOfDocument] = useState("");
     const [status, setStatus] = useState([]);
+    const [friends, setFriends] = useState([]);
     const navigate = useNavigate();
     const db = getFirestore(app);
     const context = App.Context;
     const Context = useContext(context);
-    const { userUID } = Context;
-   
+    
+    const { text: { userUID } } = Context;
+
+    const myFriends = collection(db, "users");
+    
     const data = [
         {
             img: friend1,
@@ -142,11 +146,19 @@ const Message = () => {
         getData()
     },[Context.text.userUID])
 
- 
-    
-    const {friends} = headerDetails;
-    console.log(friends)
-    headerDetails && console.log(headerDetails)
+    //get real updates of friends
+    useEffect(()=>{
+        const subscribe = onSnapshot(myFriends, (result)=>{
+            const data = result.docs.map(item => item.data());
+            const newData = data.filter(item => item.userUID === headerDetails.userUID);
+            console.log(newData)
+            setFriends(newData[0]?.friends)
+        })
+        return ()=> subscribe()
+    },[headerDetails.userUID])
+
+headerDetails && console.log(headerDetails)
+
   return (
     <Background>
         <section style={styles.container} className="overall--container">

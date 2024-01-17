@@ -27,6 +27,10 @@ function App() {
       if (user) {
         const uid = user.uid;  
         changeValue(uid)
+        setText(prev=>({
+          ...prev,
+          userUID: uid 
+        }))
         setText(prev => ({
           ...prev,
           isActive: true
