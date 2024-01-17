@@ -26,7 +26,6 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;  
-        changeValue(uid)
         setText(prev=>({
           ...prev,
           userUID: uid 

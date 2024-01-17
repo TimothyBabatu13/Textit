@@ -20,7 +20,7 @@ const Login = () => {
 
   const Context = App.Context;
   const context = useContext(Context);
-  console.log(context)
+  
   let { changeValue } = context;
 
   const navigate = useNavigate();

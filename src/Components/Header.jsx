@@ -3,6 +3,7 @@ import app from "../Firebase";
 import search from "../assets/Icons/Search.svg";
 import { getFirestore, arrayUnion, updateDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 const Header = ({  text, img, data, id }) => {
 
   const [searchText, setSearchText] = useState("");
@@ -10,7 +11,7 @@ const Header = ({  text, img, data, id }) => {
   const [friends, setFriends] = useState([]);
   const db = getFirestore(app);
   const auth = getAuth();
-  
+  const navigate = useNavigate();  
   const handleFilter = ()=>{
     setShow(prev => !prev)
   }
@@ -21,7 +22,10 @@ const Header = ({  text, img, data, id }) => {
 
   const handleProfile = ()=>{
     const logout = confirm("Do you want to logout?")
-    if(logout) auth.signOut();
+    if(logout) {
+      auth.signOut()
+      navigate("/")
+    }
 
     console.log("clicked")
   }
