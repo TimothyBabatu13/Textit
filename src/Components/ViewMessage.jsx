@@ -1,8 +1,17 @@
 
-const ViewMessage = ({ data, group }) => {
+import { useContext } from "react";
+import App from "../App";
 
+const ViewMessage = ({ data, group }) => {
+  const App2 = App.Context;
+  const context = useContext(App2);
+  const {text: {userUID}} = context;
+  console.log(userUID)
+  
     const msg = data;
+    // let msg
     const myId = 1;
+
     // console.log(data)
   return (
     <div style={{width: "fit-content", marginLeft: msg?.senderId === myId ? "auto": "0"}}> 

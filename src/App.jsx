@@ -35,7 +35,8 @@ function App() {
         setText(prev => ({
           ...prev,
           isActive: false
-        }))
+        }));
+        console.log("logged out")
       }
     });
   }, [])

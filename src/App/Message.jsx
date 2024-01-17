@@ -16,6 +16,7 @@ import { useContext, useEffect, useState } from "react";
 const Message = () => {
     const [headerDetails, setHeaderDetails] = useState("");
     const [idOfDocument, setIdOfDocument] = useState("");
+    const [status, setStatus] = useState([]);
     const navigate = useNavigate();
     const db = getFirestore(app);
     const context = App.Context;
@@ -141,8 +142,10 @@ const Message = () => {
         getData()
     },[Context.text.userUID])
 
+ 
     
-
+    const {friends} = headerDetails;
+    console.log(friends)
     headerDetails && console.log(headerDetails)
   return (
     <Background>
@@ -160,8 +163,8 @@ const Message = () => {
                     </div>
                     <h5 style={{fontWeight:"lighter"}}>My status</h5>
                 </div>
-                {data.map((person, id) =>(<div style={styles.friendsStatus} className="cursor--pointer" key={id}>
-                    <img style={styles.friendsStatusImg} src={person.img} alt={person.name} />
+                {friends?.map((person) =>(<div style={styles.friendsStatus} className="cursor--pointer" key={person.userUID}>
+                    <img style={styles.friendsStatusImg} src={person.img || user} alt={person.name} />
                     <h5 style={{fontWeight:"lighter"}}>{person.name}</h5>
                 </div>))}
             </div>
