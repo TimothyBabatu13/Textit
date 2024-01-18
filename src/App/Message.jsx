@@ -157,6 +157,8 @@ const Message = () => {
         return ()=> subscribe()
     },[headerDetails.userUID])
 
+    
+
 headerDetails && console.log(headerDetails)
 
   return (
@@ -175,7 +177,7 @@ headerDetails && console.log(headerDetails)
                     </div>
                     <h5 style={{fontWeight:"lighter"}}>My status</h5>
                 </div>
-                {friends?.map((person) =>(<div style={styles.friendsStatus} className="cursor--pointer" key={person.userUID}>
+                {friends?.map((person) =>(<div onClick={()=>handleNavigateToChat(person.userUID)} style={styles.friendsStatus} className="cursor--pointer" key={person.userUID}>
                     <img style={styles.friendsStatusImg} src={person.img || user} alt={person.name} />
                     <h5 style={{fontWeight:"lighter"}}>{person.name}</h5>
                 </div>))}

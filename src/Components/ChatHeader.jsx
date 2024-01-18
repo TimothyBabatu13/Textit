@@ -1,10 +1,11 @@
 import GoBack from "./GoBack";
 import call from "../assets/Icons/Call2.svg";
 import video from "../assets/Icons/Video.svg";
-
+import img from "../assets/images/user.png";
 const ChatHeader = ({ data }) => {
 
-    const {isActive, img, name} = data;
+    console.log(data)
+    // const {isActive, img, name} = data;
 
 //   const isActive = true;
 
@@ -13,12 +14,12 @@ const ChatHeader = ({ data }) => {
             <GoBack />
             <div className="cursor--pointer" style={styles.userDetails}>
                 <div style={styles.receipientImgContainer}>
-                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} src={img} alt="reciepient image" />
-                    {isActive && <div style={styles.isActive}></div>}
+                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} src={data?.img || img} alt="reciepient image" />
+                    {data?.isActive && <div style={styles.isActive}></div>}
                 </div>
                 <div>
-                    <h3>{name}</h3>
-                    <h5>{isActive ? "Active now": "Offline"}</h5>
+                    <h3>{data?.name}</h3>
+                    <h5>{data?.isActive ? "Active now": "Offline"}</h5>
                 </div>
             </div>
             <div style={styles.call}>

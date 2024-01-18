@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { useEffect, useState } from "react";
 const SendMessage = ({ id, handleBackground }) => {
 
+    console.log(id)
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
     const [openModal, setOpenModal] = useState(false);
     

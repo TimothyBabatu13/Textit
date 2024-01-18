@@ -4,14 +4,33 @@ import SendMessage from "../Components/SendMessage";
 import img from "../assets/images/user.png";
 import ViewMessage from "../Components/ViewMessage";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import friend1 from "../assets/images/friend1.png";
 import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
-
+import app from "../Firebase";
+import App from "../App";
+import { onSnapshot, collection, getFirestore } from "firebase/firestore";
 const Chat = () => {
-    const [background, setBackground] = useState(false)
+    const [background, setBackground] = useState(false);
+    const [data, setData] = useState();
     const { id } = useParams();
+    const context = App.Context;
+    const Context = useContext(context);
+    const { text: { userUID } } = Context;
+
+    const db = getFirestore(app);
+    const myFriends = collection(db, "users");
+    useEffect(()=>{
+        const subscribe = onSnapshot(myFriends, (result)=>{
+            const data = result.docs.map(item => item.data());
+            const newData = data.filter(item => item.userUID === id);
+            console.log(newData[0])
+            setData(newData[0])
+        })
+        return ()=> subscribe()
+    },[userUID])
+    
     const Message = [
         {
             img: friend1,
@@ -95,8 +114,8 @@ const Chat = () => {
             recipientUid: "93"
         },
     ]
-    const [data, setData] = useState(Message[id]);
-    console.log(data)
+    // const [data, setData] = useState(Message[id]);
+    // console.log(data)
    //id wiil be used to check for messages related to the specific user
     const message = [
         {
@@ -142,7 +161,7 @@ const Chat = () => {
    
     return (
     <section className="overall--container" style={{background: background ? "black" : ""}}>
-        <ChatHeader data={data} />
+        <ChatHeader data={data}/>
         <div style={styles.messageContainer}>
             {message.map((msg, id) =>(
                 <ViewMessage key={id} data={msg} group={false} />
