@@ -40,6 +40,8 @@ const Modal = ({ closeModal }) => {
         },
     ]
 
+
+
   return (
     <section style={styles.container}>
         <div style={styles.header}>

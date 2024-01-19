@@ -17,15 +17,14 @@ const Message = () => {
     const [headerDetails, setHeaderDetails] = useState("");
     const [idOfDocument, setIdOfDocument] = useState("");
     const [status, setStatus] = useState([]);
-    const [friends, setFriends] = useState([]);
     const navigate = useNavigate();
     const db = getFirestore(app);
+    
     const context = App.Context;
     const Context = useContext(context);
-    
     const { text: { userUID } } = Context;
+    const {text: { friends }} = Context;
 
-    const myFriends = collection(db, "users");
     
     const data = [
         {
@@ -146,20 +145,6 @@ const Message = () => {
         getData()
     },[Context.text.userUID])
 
-    //get real updates of friends
-    useEffect(()=>{
-        const subscribe = onSnapshot(myFriends, (result)=>{
-            const data = result.docs.map(item => item.data());
-            const newData = data.filter(item => item.userUID === headerDetails.userUID);
-            console.log(newData)
-            setFriends(newData[0]?.friends)
-        })
-        return ()=> subscribe()
-    },[headerDetails.userUID])
-
-    
-
-headerDetails && console.log(headerDetails)
 
   return (
     <Background>
@@ -240,7 +225,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginRight: "15px"
+        marginRight: "15px",
     },
     friendsStatusImg: {
         marginBottom: "10px",
@@ -249,6 +234,7 @@ const styles = {
         height: "50px",
         width: "50px"
     },
+
     
     message: {
         display: "flex",
