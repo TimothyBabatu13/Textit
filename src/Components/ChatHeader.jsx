@@ -4,7 +4,7 @@ import video from "../assets/Icons/Video.svg";
 import img from "../assets/images/user.png";
 const ChatHeader = ({ data }) => {
 
-    console.log(data)
+    // console.log(data)
     // const {isActive, img, name} = data;
 
 //   const isActive = true;

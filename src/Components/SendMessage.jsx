@@ -3,16 +3,16 @@ import microphone from "../assets/Icons/microphone.svg";
 import vector from "../assets/Icons/Vector.svg";
 import share from "../assets/Icons/share.svg";
 import Modal from "./Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 const SendMessage = ({ id, handleBackground }) => {
 
-    console.log(id)
+    // console.log(id)
+
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
     const [openModal, setOpenModal] = useState(false);
     
-    useEffect(()=>{
-        localStorage.setItem(id, JSON.stringify(text));
-    },[text])
+   
     
     const handleChange = (e) =>{
         setText(e.target.value);
@@ -29,12 +29,16 @@ const SendMessage = ({ id, handleBackground }) => {
     }
 
     
+    const handleSendMessage = async () =>{
+       
+    }
+    
   return (
     <div style={styles.sendMessageContainer}>
         <img className="cursor--pointer" onClick={handleModal} src={share} alt="file icon" />
         <div style={styles.userInput}>
             <textarea value={text} onChange={handleChange} style={{width: "100%", padding: "10px", resize: "none", height: "40px", borderRadius: "10px"}} name="" id="" cols="30" rows="10"></textarea>
-            <img className="cursor--pointer" style={styles.fileIcons} src={files} alt="" />
+            <img className="cursor--pointer" onClick={handleSendMessage} style={styles.fileIcons} src={files} alt="" />
         </div>
         <div style={styles.rightButtons}>
             <img className="cursor--pointer" src={vector} alt="" />

@@ -6,8 +6,7 @@ import google from "../assets/Icons/goggle.svg";
 import Input from "../Components/Input";
 import GoBack from "../Components/GoBack";
 import { useNavigate } from "react-router-dom";
-import app from "../Firebase";
-import {  getAuth, signInWithEmailAndPassword, } from "firebase/auth";
+
 import App from "../App";
 
 const Login = () => {
@@ -24,7 +23,6 @@ const Login = () => {
   let { changeValue } = context;
 
   const navigate = useNavigate();
-  const auth = getAuth();
   const handleChange = (e) =>{
     setText(prev =>({
       ...prev,
@@ -34,17 +32,7 @@ const Login = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    signInWithEmailAndPassword(auth, text.email, text.password)
-    .then((userCredential) => {
-      const user = userCredential.user.uid;
-      changeValue(user)
-      navigate("/message");
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode, errorMessage)
-  });
+    navigate("/message")
 }
 
   const handleResetPassword = (e) =>{

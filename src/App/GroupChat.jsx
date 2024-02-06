@@ -59,7 +59,7 @@ const GroupChat = () => {
         <ChatHeader img={img} />
         <div style={styles.messageContainer} >
           {message.map((msg, id) => (
-          <ViewMessage key={id} data={msg} group/>
+            <ViewMessage key={id} data={msg} group/>
           ))}        
         </div>
         <SendMessage />

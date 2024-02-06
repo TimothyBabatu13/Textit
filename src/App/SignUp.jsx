@@ -16,6 +16,7 @@ const SignUp = () => {
     const auth = getAuth();
     const db = getFirestore(app);
     const userCollection = collection(db, "users");
+    const messagesCollection = collection(db, "messages");
     
     const handleChange = e => {
         setText(prev =>({
@@ -44,7 +45,16 @@ const SignUp = () => {
             userUID: auth.currentUser.uid,
             friends: []
           })
-          .then(success => console.log("data sent successfully.", success))
+          .then(success => {
+            console.log("data sent successfully.", success)
+            addDoc(messagesCollection, {
+              name: text.name,
+              email: text.email,
+              userUID: userCredential.user.uid
+            })
+            .then(res => console.log("Message table updated", res))
+            .catch(err => console.log("error occured", err))
+          })
           .catch(err => console.log(err))
         })
         .catch(err => console.log(err))

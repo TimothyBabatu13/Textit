@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import backButton from "../assets/Icons/Back.svg";
 
 const GoBack = () => {
-  
+  const navigate = useNavigate()
+
   const handleClick = () =>{
-    window.history.back();
+    navigate(-1);
   }
 
   return (

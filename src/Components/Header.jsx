@@ -1,16 +1,11 @@
 import { useState } from "react";
-import app from "../Firebase";
 import search from "../assets/Icons/Search.svg";
-import { getFirestore, arrayUnion, updateDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 const Header = ({  text, img, data, id }) => {
 
   const [searchText, setSearchText] = useState("");
   const [show, setShow] = useState(false)
-  const [friends, setFriends] = useState([]);
-  const db = getFirestore(app);
-  const auth = getAuth();
+  
   const navigate = useNavigate();  
   const handleFilter = ()=>{
     setShow(prev => !prev)
@@ -23,7 +18,6 @@ const Header = ({  text, img, data, id }) => {
   const handleProfile = ()=>{
     const logout = confirm("Do you want to logout?")
     if(logout) {
-      auth.signOut()
       navigate("/")
     }
 
@@ -31,34 +25,11 @@ const Header = ({  text, img, data, id }) => {
   }
   const handleSubmit = (e) =>{  
     e.preventDefault();
-    const filter = async ()=>{
-      const q = query(collection(db, "users"), where("email", "==", searchText));
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      setFriends(prev => ([...prev, doc.data()]))
-    });
-    }
-    filter();
+    
   }
   
   const handleAdd = (e)=>{
-    const {userUID, name, img, email} = e;
-    console.log(userUID, name, img, email)
-    const data = async ()=>{
-      console.log("data about to update");
-      const washingtonRef = doc(db, "users", id);
-      await updateDoc(washingtonRef, {
-        friends: arrayUnion({
-          userUID: userUID,
-          name: name,
-          img: img,
-          email: email,
-        })
-      }).then((success)=>{
-        console.log("success", success)
-      }).catch(err => console.log("err", err))
-    }
+    
     data()
   }
 
@@ -76,11 +47,13 @@ const Header = ({  text, img, data, id }) => {
       <input type="submit" value="Search" />
     </form>
     }
-    {friends && friends.map(friend => (<div key={friend.userUID}>
+      { /*
+      friends && friends.map(friend => (<div key={friend.userUID}>
       <img src={friend.img} alt="userImg" />
       <h3>{friend.name}</h3>
-      <button onClick={()=>handleAdd(friend)}>Add user</button>
-    </div>))}
+      <button onClick={()=>handleAdd()}>Add user</button>
+      </div>)) 
+      */}
     </section>
   )
 }

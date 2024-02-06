@@ -1,7 +1,7 @@
 
 const RenderHomeBackground = ({ children }) => {
   return (
-    <div className="overall--container" style={styles.messageContainer}>
+    <div className="overall--container render--home--background" style={styles.messageContainer}>
         <div style={styles.messageDash}></div>
         {children}
     </div>
@@ -17,7 +17,8 @@ const styles = {
         marginTop: "20px",
         position: "relative",
         overflowY: "scroll",
-        minHeight: "100px",
+        // height: "100vh",
+        height: "60vh",
         color: "#000",
     },
     messageDash: {

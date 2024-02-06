@@ -8,23 +8,12 @@ import friend1 from "../assets/images/friend1.png";
 import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
-import app from "../Firebase";
-import { getFirestore, collection, query, where, getDocs, arrayUnion, updateDoc, doc, onSnapshot } from "firebase/firestore";
 
-import App from "../App";
-import { useContext, useEffect, useState } from "react";
 const Message = () => {
-    const [headerDetails, setHeaderDetails] = useState("");
-    const [idOfDocument, setIdOfDocument] = useState("");
-    const [status, setStatus] = useState([]);
-    const navigate = useNavigate();
-    const db = getFirestore(app);
-    
-    const context = App.Context;
-    const Context = useContext(context);
-    const { text: { userUID } } = Context;
-    const {text: { friends }} = Context;
 
+  
+    const navigate = useNavigate();
+    
     
     const data = [
         {
@@ -129,21 +118,10 @@ const Message = () => {
         },
     ]
 
-    const handleNavigateToChat = (id) =>{
+    const handleNavigateToChat = (id) => {
+        console.log("hi")
         navigate(`/chat/${id}`);
     }
-
-    useEffect(()=>{
-        const getData = async ()=>{
-            const q = query(collection(db, "users"), where("userUID", "==", Context.text.userUID));
-            const querySnapshot = await getDocs(q);
-            (querySnapshot.forEach((doc) => {
-                setIdOfDocument(doc.id);
-                setHeaderDetails(doc.data())
-            }))
-        }
-        getData()
-    },[Context.text.userUID])
 
 
   return (
@@ -151,8 +129,8 @@ const Message = () => {
         <section style={styles.container} className="overall--container">
             <Header 
                 text="Home"
-                img={headerDetails && headerDetails.img || user} 
-                id={idOfDocument}
+                img={user} 
+                // id={idOfDocument}
             />
             <div className="home--status" style={styles.status}>
                 <div className="cursor--pointer">
@@ -161,15 +139,23 @@ const Message = () => {
                         <img style={styles.addIcon} src={addIcon} alt="add icon" />
                     </div>
                     <h5 style={{fontWeight:"lighter"}}>My status</h5>
-                </div>
-                {friends?.map((person) =>(<div onClick={()=>handleNavigateToChat(person.userUID)} style={styles.friendsStatus} className="cursor--pointer" key={person.userUID}>
-                    <img style={styles.friendsStatusImg} src={person.img || user} alt={person.name} />
-                    <h5 style={{fontWeight:"lighter"}}>{person.name}</h5>
-                </div>))}
+                  </div>
+
+                  {/* Status */}
+                  {
+                      data.map((friend, index) => (
+                          <div style={styles.friendsStatus} onClick={()=>handleNavigateToChat(friend.userUID || index)} className="cursor--pointer" key={index}>
+                            <img style={styles.friendsStatusImg} src={friend.img || user} alt={friend.name} />
+                            <h5 style={{fontWeight:"lighter"}}>{friend.name}</h5>          
+                          </div>
+                      ))
+                  }
+               
             </div>
             
         </section>
         <RenderHomeBackground>
+            
             {message.map((person, id) => (
                         <div onClick={()=> {
                             handleNavigateToChat(id)
