@@ -7,40 +7,50 @@ import doc from "../assets/Icons/doc.svg";
 import camera from "../assets/Icons/Camera.svg";
 
 const Modal = ({ closeModal }) => {
+    
     const data = [
         {
             img: camera,
             text: "Camera",
-            desc: ""
+            desc: "",
+            func: true
         },
         {
             img: doc,
             text: "Documents",
-            desc: "Share your files"
+            desc: "Share your files",
+            func: true
         },
         {
             img: poll,
             text: "Create a poll",
-            desc: "create a poll for any query"
+            desc: "create a poll for any query",
+            func: false
         },
         {
             img: media,
             text: "Media",
-            desc: "Share photos and videos"
+            desc: "Share photos and videos",
+            func: true
         },
         {
             img: contact,
             text: "Contact",
-            desc: "Share your contacts"
+            desc: "Share your contacts",
+            func: false
         },
         {
             img: location,
             text: "Location",
-            desc: "Share your location"
+            desc: "Share your location",
+            func: false
         },
     ]
 
-
+    const handleClick = (e) => {
+        const input = document.querySelector(`#id${e}`);
+        input && input.click()
+    }
 
   return (
     <section style={styles.container}>
@@ -51,7 +61,8 @@ const Modal = ({ closeModal }) => {
             <div></div>
         </div>
         <div>
-            {data.map((item, id)=><div style={styles.modalElement} className="cursor--pointer" key={id}>
+              {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleClick(id)} className="cursor--pointer" key={id}>
+                {item.func && <input id={`id${id}`} style={styles.input} type="file" />}
                 <img style={styles.modalElementImg} src={item.img} alt={`${item.text} icon`} />
                 <div className={id === data.length -1 ? null : "modal--element"}>
                     <h5>{item.text}</h5>
@@ -87,6 +98,10 @@ const styles = {
     modalElementImg: {
         marginRight: "15px",
         width: "30px"
+    },
+    input: {
+        position: "fixed",
+        top: "-100px", 
     }
 }
 export default Modal
