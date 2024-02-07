@@ -8,6 +8,15 @@ import camera from "../assets/Icons/Camera.svg";
 
 const Modal = ({ closeModal }) => {
     
+    
+        const getLocation = async () => {
+            console.log("starting")
+            //http://ip-api.com/json
+            const api = await fetch("http://ip-api.com/json");
+            const json = await api.json();
+            const { country, regionName } = json
+            alert(`Tada, you're from ${country}, and your state is ${regionName}`)
+        }
     const data = [
         {
             img: camera,
@@ -43,14 +52,20 @@ const Modal = ({ closeModal }) => {
             img: location,
             text: "Location",
             desc: "Share your location",
-            func: false
+            func: false,
+            getData: getLocation
         },
     ]
 
+    const handleSubmit = (id, fun, func) => {
+        fun && handleClick(id)
+        !fun && func && func();
+    }
     const handleClick = (e) => {
         const input = document.querySelector(`#id${e}`);
         input && input.click()
     }
+
 
   return (
     <section style={styles.container}>
@@ -61,8 +76,9 @@ const Modal = ({ closeModal }) => {
             <div></div>
         </div>
         <div>
-              {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleClick(id)} className="cursor--pointer" key={id}>
-                {item.func && <input id={`id${id}`} style={styles.input} type="file" />}
+              {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleSubmit(id, item.func, item.getData)} className="cursor--pointer" key={id}>
+                  {item.func && <input id={`id${id}`} style={styles.input} type="file" />}
+                  
                 <img style={styles.modalElementImg} src={item.img} alt={`${item.text} icon`} />
                 <div className={id === data.length -1 ? null : "modal--element"}>
                     <h5>{item.text}</h5>
