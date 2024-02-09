@@ -2,6 +2,7 @@ import Background from "../Components/Background";
 import RenderHomeBackground from "../Components/RenderHomeBackground";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
+import { Call as Cal, Video } from "../Components/Svg";
 import call from "../assets/Icons/Call.svg";
 import video from "../assets/Icons/Video.svg";
 import user1 from "../assets/images/friend1.png";
@@ -85,11 +86,11 @@ const Call = () => {
       <div className="overall--container">
         <Header 
           text="Calls"  
-          img={call}
+          img={<Cal height width />}
           data={data}
         />
       </div>
-      <RenderHomeBackground >
+      <RenderHomeBackground height="80vh">
         <div style={{padding: "10px 0 40px 0"}}>
           <h3 style={{marginBottom: "10px"}}>Recent</h3>
           {Data.map((data, id) => {
@@ -110,8 +111,12 @@ const Call = () => {
                   <p style={styles.time}><img src={img} style={{marginRight: "8px"}} alt={`${data.type} icon`} />{data.time}</p>
                 </div>
                 <div style={styles.rightImg}>
-                  <img className="cursor--pointer" src={call} alt="call icon" />
-                  <img className="cursor--pointer" style={{marginLeft: "10px"}} src={video} alt="video icon" />
+                  <div className="cursor--pointer">
+                    <Cal />
+                  </div>
+                  <div className="cursor--pointer" style={{marginLeft: "10px"}}>
+                    <Video />
+                  </div>
                 </div>
               </div>)
           })}
@@ -142,7 +147,9 @@ const styles = {
     alignItems:"center",
   },
   rightImg: {
-    marginLeft: "auto"
+    marginLeft: "auto",
+    display: "flex",
+    alignItems: "center"
   }
 }
 export default Call

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import backButton from "../assets/Icons/Back.svg";
+import { BackIcon } from "./Svg";
 
 const GoBack = () => {
   const navigate = useNavigate()
@@ -9,12 +10,7 @@ const GoBack = () => {
   }
 
   return (
-  <img 
-    className="cursor--pointer" 
-    src={backButton} 
-    alt="back icon" 
-    onClick={handleClick}
-  />
+    <BackIcon onClick={handleClick} className="cursor--pointer" />
   )
 }
 

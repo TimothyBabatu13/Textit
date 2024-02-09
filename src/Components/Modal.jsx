@@ -1,10 +1,12 @@
-import poll from "../assets/Icons/poll.svg";
-import location from "../assets/Icons/location.svg";
-import contact from "../assets/Icons/contact.svg";
-import media from "../assets/Icons/media.svg";
-import remove from "../assets/Icons/remove.svg";
-import doc from "../assets/Icons/doc.svg";
-import camera from "../assets/Icons/Camera.svg";
+import {
+    Poll,
+    Location,
+    Contact,
+    Media,
+    Cancel,
+    Document,
+    Camera
+} from "./Svg";
 
 const Modal = ({ closeModal }) => {
     
@@ -19,37 +21,37 @@ const Modal = ({ closeModal }) => {
         }
     const data = [
         {
-            img: camera,
+            img: <Camera />,
             text: "Camera",
             desc: "",
             func: true
         },
         {
-            img: doc,
+            img: <Document />,
             text: "Documents",
             desc: "Share your files",
             func: true
         },
         {
-            img: poll,
+            img: <Poll />,
             text: "Create a poll",
             desc: "create a poll for any query",
             func: false
         },
         {
-            img: media,
+            img: <Media />,
             text: "Media",
             desc: "Share photos and videos",
             func: true
         },
         {
-            img: contact,
+            img: <Contact />,
             text: "Contact",
             desc: "Share your contacts",
             func: false
         },
         {
-            img: location,
+            img: <Location />,
             text: "Location",
             desc: "Share your location",
             func: false,
@@ -70,16 +72,18 @@ const Modal = ({ closeModal }) => {
   return (
     <section style={styles.container}>
         <div style={styles.header}>
-            <img src={remove} onClick={closeModal} className="cursor--pointer" alt="remove icon" />
-            {/* <p className="cursor--pointer" onClick={closeModal}></p> */}
+            <div className="cursor--pointer" onClick={closeModal}>
+                <Cancel />
+           </div>
             <h5>Share Content</h5>
             <div></div>
         </div>
         <div>
               {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleSubmit(id, item.func, item.getData)} className="cursor--pointer" key={id}>
                   {item.func && <input id={`id${id}`} style={styles.input} type="file" />}
-                  
-                <img style={styles.modalElementImg} src={item.img} alt={`${item.text} icon`} />
+                  <div style={styles.modalElementImg}>
+                    {item.img}
+                  </div>
                 <div className={id === data.length -1 ? null : "modal--element"}>
                     <h5>{item.text}</h5>
                     {item.desc && <p>{item.desc}</p>}

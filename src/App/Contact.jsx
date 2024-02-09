@@ -1,6 +1,7 @@
 import Background from "../Components/Background";
 import Header from "../Components/Header";
 import RenderHomeBackground from "../Components/RenderHomeBackground";
+import { User } from "../Components/Svg";
 import Footer from "../Components/Footer";
 import conatct from "../assets/Icons/user.svg";
 const Contact = () => {
@@ -59,7 +60,7 @@ const Contact = () => {
       <div className="overall--container">
         <Header
           text="Contacts"
-          img={conatct}
+          img={<User height width />}
           data={data}
         />
       </div>

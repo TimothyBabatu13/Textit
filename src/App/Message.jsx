@@ -129,7 +129,8 @@ const Message = () => {
         <section style={styles.container} className="overall--container">
             <Header 
                 text="Home"
-                img={user} 
+                  img={user} 
+                  png
                 // id={idOfDocument}
             />
             <div className="home--status" style={styles.status}>
@@ -184,9 +185,10 @@ const Message = () => {
 }
 
 const styles = {
-    // container:{
-    //     background: "url(<path-to-image>), lightgray 50% / cover no-repeat"
-    // },
+    container:{
+        // background: "url(<path-to-image>), lightgray 50% / cover no-repeat"
+        // background: "linear-gradient(271deg, rgb(67, 17, 106) 36.61%, rgb(104, 225, 253) 106.23%)"
+    },
     status: {
         display: "flex",
         alignItems: "center",

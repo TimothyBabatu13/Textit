@@ -1,7 +1,6 @@
 import GoBack from "./GoBack";
-import call from "../assets/Icons/Call2.svg";
-import video from "../assets/Icons/Video.svg";
 import img from "../assets/images/user.png";
+import { ChatHeaderCall, Video } from "./Svg";
 const ChatHeader = ({ data }) => {
 
     // console.log(data)
@@ -22,9 +21,14 @@ const ChatHeader = ({ data }) => {
                     <h5>{data?.isActive ? "Active now": "Offline"}</h5>
                 </div>
             </div>
-            <div style={styles.call}>
-                <img className="cursor--pointer" src={call} alt="call icon" />
-                <img style={styles.video} className="cursor--pointer" src={video} alt="video icon" />
+          <div style={styles.call}>
+              
+              <div className="cursor--pointer">
+                <ChatHeaderCall />
+              </div>
+              <div style={styles.video} className="cursor--pointer">
+                <Video />  
+              </div>
             </div>
         </header>
   )
@@ -63,7 +67,9 @@ isActive: {
     bottom: "7px"
 },
 call: {
-    marginLeft: "auto"
+    marginLeft: "auto",
+    display: "flex",
+    alignItems: "center",
 },
 video: {
     marginLeft: "20px"

@@ -1,9 +1,13 @@
-import files from "../assets/Icons/files.svg";
-import microphone from "../assets/Icons/microphone.svg";
-import vector from "../assets/Icons/Vector.svg";
-import share from "../assets/Icons/share.svg";
 import Modal from "./Modal";
+
 import { useState } from "react";
+
+import {
+    File,
+    MicroPhone,
+    Vector,
+    Share
+} from "./Svg";
 
 const SendMessage = ({ id, handleBackground }) => {
 
@@ -34,15 +38,23 @@ const SendMessage = ({ id, handleBackground }) => {
     }
     
   return (
-    <div style={styles.sendMessageContainer}>
-        <img className="cursor--pointer" onClick={handleModal} src={share} alt="file icon" />
+      <div style={styles.sendMessageContainer}>
+          <div className="cursor--pointer" onClick={handleModal}>
+              <Share />
+          </div>
         <div style={styles.userInput}>
-            <textarea value={text} onChange={handleChange} style={{width: "100%", padding: "10px", resize: "none", height: "40px", borderRadius: "10px"}} name="" id="" cols="30" rows="10"></textarea>
-            <img className="cursor--pointer" onClick={handleSendMessage} style={styles.fileIcons} src={files} alt="" />
+              <textarea value={text} onChange={handleChange} style={{ width: "100%", padding: "10px", resize: "none", height: "40px", borderRadius: "10px" }} name="" id="" cols="30" rows="10"></textarea>
+              <div className="cursor--pointer" onClick={handleSendMessage} style={styles.fileIcons}>
+                  <File />
+              </div>
         </div>
-        <div style={styles.rightButtons}>
-            <img className="cursor--pointer" src={vector} alt="" />
-            <img className="cursor--pointer" src={microphone} alt="" />
+          <div style={styles.rightButtons}>
+              <div className="cursor--pointer">
+                  <Vector />
+              </div>
+              <div className="cursor--pointer">
+                  <MicroPhone />
+              </div>
         </div>
         {openModal && <Modal closeModal={closeModal} />}
     </div>

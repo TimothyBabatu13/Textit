@@ -1,13 +1,10 @@
 import { useState, useEffect, useContext } from "react";
-import facebook from "../assets/Icons/facebook.svg";
-import apple from "../assets/Icons/apple.svg";
-import google from "../assets/Icons/goggle.svg";
-
 import Input from "../Components/Input";
 import GoBack from "../Components/GoBack";
 import { useNavigate } from "react-router-dom";
 
 import App from "../App";
+import { Facebook, Apple, Google } from './../Components/Svg';
 
 const Login = () => {
 
@@ -45,10 +42,16 @@ const Login = () => {
         <form style={styles.form} action="" onSubmit={handleSubmit}>
             <h5 style={styles.h5}>Log in to Chatbox</h5>
             <p style={styles.p}>Welcome back! Sign in using your social account or email to continue as</p>
-            <div style={styles.socialMediaImageContainer}>
-              <img className="cursor--pointer" src={facebook} alt="facebook logo" />
-              <img className="cursor--pointer" src={google} alt="goggle logo" />
-              <img className="cursor--pointer" src={apple} alt="apple logo" />
+        <div style={styles.socialMediaImageContainer}>
+          <div className="cursor--pointer">
+            <Facebook />
+          </div>
+          <div className="cursor--pointer">
+            <Google />
+          </div>
+          <div className="cursor--pointer">
+            <Apple />
+          </div>
             </div>
             <div style={styles.or}>
               <div style={styles.line}></div>

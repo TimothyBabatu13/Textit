@@ -31,7 +31,7 @@ body{
   /* display: none; */
 }
 .list--user--message:last-child{
-  margin-bottom: 50px !important;
+  margin-bottom: 10px !important;
 }
 .modal--element{
   padding: 10px 0;

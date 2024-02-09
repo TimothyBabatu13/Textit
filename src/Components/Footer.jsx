@@ -1,11 +1,12 @@
-import messageActive from "../assets/Icons/Message.svg";
-import call from "../assets/Icons/Call.svg";
-import conatct from "../assets/Icons/user.svg";
-import setting from "../assets/Icons/settings.svg";
-import activeMessage from "../assets/Icons/activeMessage.svg";
-import activeCall from "../assets/Icons/activeCall.svg";
-import activeSetting from "../assets/Icons/activeSettings.svg";
-import activeContact from "../assets/Icons/activeUser.svg";
+import {
+    Call,
+    ActiveCall,
+    Message,
+    ActiveMessage,
+    Setting,
+    ActiveSetting,
+    User, ActiveUser
+} from "./Svg";
 import FooterImage from "./FooterImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,24 +25,24 @@ const Footer = () => {
 
     const data = [
         {
-            activeImg: messageActive,
+            activeImg: <Message />,
             text: "Message",
-            img: activeMessage
+            img: <ActiveMessage />
         },
         {
-            img: call,
+            img: <Call />,
             text: "Calls",
-            activeImg: activeCall
+            activeImg: <ActiveCall />
         },
         {
-            img: conatct,
+            img: <User />,
             text: "Contacts",
-            activeImg: activeContact
+            activeImg: <ActiveUser />
         },
         {
-            img: setting,
+            img: <Setting />,
             text: "Settings",
-            activeImg: activeSetting
+            activeImg: <ActiveSetting />
         }
     ]
 
@@ -50,11 +51,14 @@ const Footer = () => {
         {data.map((item, id) =>(
             <FooterImage
                 key={id}
-                img={isActive === item.text.toLowerCase() ? item.activeImg : item.img}
+                // img={isActive === item.text.toLowerCase() ? item.activeImg : item.img}
                 text={item.text}
                 onClick={()=>handleActive(item.text.toLowerCase())}
                 isLight={isActive === item.text.toLowerCase() ? false : true}
-            />
+            >
+        {isActive === item.text.toLowerCase() ? item.activeImg : item.img}
+        {/* {item.img} */}
+            </FooterImage>
         ))}
     </footer>
   )

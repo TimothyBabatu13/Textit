@@ -1,7 +1,7 @@
 import { useState } from "react";
-import search from "../assets/Icons/Search.svg";
+import { Search } from "./Svg";
 import { useNavigate } from "react-router-dom";
-const Header = ({  text, img, data, id }) => {
+const Header = ({  text, img, data, id, png }) => {
 
   const [searchText, setSearchText] = useState("");
   const [show, setShow] = useState(false)
@@ -37,9 +37,13 @@ const Header = ({  text, img, data, id }) => {
   return (
     <section>
       <header style={styles.header}>
-        <img className="cursor--pointer" onClick={handleFilter} style={styles.searchIcon} height="20" width="20" src={search} alt="search icon" />
-        <h4 style={{fontWeight:"300"}}>{text}</h4>
-        <img onClick={handleProfile} className="cursor--pointer" height="50" width="50" src={img} alt="user image" />
+        <div className="cursor--pointer" onClick={handleFilter} style={styles.searchIcon}>
+          <Search />
+        </div>
+        <h4 style={{ fontWeight: "300" }}>{text}</h4>
+        <div onClick={handleProfile} className="cursor--pointer">
+          {png ? <img height={50} width={50} src={img} /> :  img }
+        </div>
     </header>
     {show && 
     <form action="" onSubmit={handleSubmit}>
@@ -64,7 +68,7 @@ const styles = {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "10px 0",
-        color: "#fff"
+        color: "#fff",
     },
     searchIcon: {
         background: "red",
