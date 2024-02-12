@@ -71,7 +71,7 @@ const styles = {
         color: "#fff",
     },
     searchIcon: {
-        background: "red",
+        // background: "red",
         padding: "4px",
         width: "30px",
         height: "30px",

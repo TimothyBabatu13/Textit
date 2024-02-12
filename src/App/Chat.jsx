@@ -164,7 +164,9 @@ const Chat = () => {
 const styles = {
     messageContainer : {
         marginTop : " 100px",
-        paddingBottom: "100px"
+        paddingBottom: "100px",
+        overflowY: "scroll",
+        height: "85vh"
     },
 }
 
