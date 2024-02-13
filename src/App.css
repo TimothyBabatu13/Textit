@@ -45,3 +45,15 @@ body{
     height: 50vh !important;
   }
 }
+
+/* Media queries */
+
+@media screen and (min-width: 800px) {
+  .login--form{
+    margin-top: 5% !important;
+  }
+  .login--form button{
+    margin-top: 5% !important;
+
+  }
+}

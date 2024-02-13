@@ -9,34 +9,44 @@ import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
 
+//user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
+//adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
+//mariana-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend2.png?alt=media&token=f3a0dc20-8609-42ac-9476-28c6a77ee633
+//dean-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend3.png?alt=media&token=8dc23146-bdd6-4f51-8949-e600ba6a5deb
+
+
 const Message = () => {
 
+    const userURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
+    const AdilURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357";
+    const marianaURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend2.png?alt=media&token=f3a0dc20-8609-42ac-9476-28c6a77ee633";
+    const deanURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend3.png?alt=media&token=8dc23146-bdd6-4f51-8949-e600ba6a5deb";
   
     const navigate = useNavigate();
     
     
     const data = [
         {
-            img: friend1,
+            img: AdilURL,
             name: "Adil"
         },
         {
-            img: friend2,
+            img: marianaURL,
             name: "Mariana"
         },
         {
-            img: friend3,
+            img: deanURL,
             name: "Dean"
         },
         {
-            img: friend1,
+            img: marianaURL,
             name: "Max"
         },
     ]
 
     const message = [
         {
-            img: friend1,
+            img: AdilURL,
             name: "Alex Linderson",
             message: "How are you today?",
             timeSent: "2 min ago",
@@ -45,7 +55,7 @@ const Message = () => {
             recipientUid: "23"
         },
         {
-            img: friend2,
+            img: marianaURL,
             name: "Team Align",
             message: "Dont miss to attend the meeting",
             timeSent: "2 min ago",
@@ -54,7 +64,7 @@ const Message = () => {
             recipientUid: "26"
         },
         {
-            img: friend3,
+            img: deanURL,
             name: "John Abraham",
             message: "Hey! Can you join the meeting?",
             timeSent: "2 min ago",
@@ -63,7 +73,7 @@ const Message = () => {
             recipientUid: "30"
         },
         {
-            img: friend1,
+            img: AdilURL,
             name: "Sabila Sayma",
             message: "How are you today?",
             timeSent: "2 min ago",
@@ -72,7 +82,7 @@ const Message = () => {
             recipientUid: "3"
         },
         {
-            img: friend1,
+            img: marianaURL,
             name: "John Borini",
             message: "Have a good ay",
             timeSent: "2 min ago",
@@ -81,7 +91,7 @@ const Message = () => {
             recipientUid: "93"
         },
         {
-            img: friend1,
+            img: deanURL,
             name: "Sabila Sayma",
             message: "How are you today?",
             timeSent: "2 min ago",
@@ -90,7 +100,7 @@ const Message = () => {
             recipientUid: "3"
         },
         {
-            img: friend1,
+            img: AdilURL,
             name: "John Borini",
             message: "Have a good ay",
             timeSent: "2 min ago",
@@ -99,7 +109,7 @@ const Message = () => {
             recipientUid: "93"
         },
         {
-            img: friend1,
+            img: marianaURL,
             name: "Sabila Sayma",
             message: "How are you today?",
             timeSent: "2 min ago",
@@ -108,7 +118,7 @@ const Message = () => {
             recipientUid: "3"
         },
         {
-            img: friend1,
+            img: deanURL,
             name: "John Borini",
             message: "Have a good ay",
             timeSent: "2 min ago",
@@ -129,14 +139,14 @@ const Message = () => {
         <section style={styles.container} className="overall--container">
             <Header 
                 text="Home"
-                  img={user} 
+                  img={userURL} 
                   png
                 // id={idOfDocument}
             />
             <div className="home--status" style={styles.status}>
                 <div className="cursor--pointer">
                     <div style={styles.userStatus}>
-                        <img width="50" height="50" src={user} alt="user image" />
+                        <img width="50" height="50" src={userURL} alt="user image" />
                         <img style={styles.addIcon} src={addIcon} alt="add icon" />
                     </div>
                     <h5 style={{fontWeight:"lighter"}}>My status</h5>

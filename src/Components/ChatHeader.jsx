@@ -1,7 +1,10 @@
 import GoBack from "./GoBack";
-import img from "../assets/images/user.png";
+// import img from "../assets/images/user.png";
 import { ChatHeaderCall, Video } from "./Svg";
 const ChatHeader = ({ data }) => {
+
+  const img = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
+  
 
     // console.log(data)
     // const {isActive, img, name} = data;

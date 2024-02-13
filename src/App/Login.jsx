@@ -39,7 +39,7 @@ const Login = () => {
   return (
     <section className="overall--container">
         <GoBack />
-        <form style={styles.form} action="" onSubmit={handleSubmit}>
+        <form style={styles.form} className="login--form" action="" onSubmit={handleSubmit}>
             <h5 style={styles.h5}>Log in to Chatbox</h5>
             <p style={styles.p}>Welcome back! Sign in using your social account or email to continue as</p>
         <div style={styles.socialMediaImageContainer}>
@@ -85,7 +85,7 @@ const Login = () => {
 
 const styles = {
   form: {
-    marginTop: "10%"
+    marginTop: "10%",
   },
   h5:{
     textAlign: "center",
