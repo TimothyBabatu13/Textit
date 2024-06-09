@@ -16,9 +16,12 @@ const ProtectedRoute = ({ children }) => {
         const arrOfLocation = loca;
         const neededArray = arrOfLocation[arrOfLocation.length -1];
         const location = `/${neededArray}`;
-
-        return location !== text && !isActive
+        
+        const isLocation = location !== text;
+        if(isLocation && !isActive) return true
+        return false;
     }
+
 
     useEffect(()=>{
         
