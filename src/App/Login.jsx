@@ -5,21 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 import App from "../App";
 import { Facebook, Apple, Google } from './../Components/Svg';
+import { useLogin } from "../utils/Auth";
+import { getAuth } from "firebase/auth";
+import { useAuthProvider } from "../context/Auth";
+
 
 const Login = () => {
-
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const { func } = useAuthProvider();
+  
   const [text, setText] = useState({
     email: "",
     password: ""
   })
 
 
-  const Context = App.Context;
-  const context = useContext(Context);
-  
-  let { changeValue } = context;
 
-  const navigate = useNavigate();
+
   const handleChange = (e) =>{
     setText(prev =>({
       ...prev,
@@ -27,9 +30,18 @@ const Login = () => {
     }))
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
-    navigate("/message")
+    const res = await useLogin(auth, text.email, text.password)
+    if(res.response === 'ok'){
+      navigate('/message')
+      func(prev => ({
+        ...prev,
+        isActive: true,
+        myUID: res.uid
+      }))
+    }
+    
 }
 
   const handleResetPassword = (e) =>{

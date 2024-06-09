@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GoBack from "../Components/GoBack";
 import Input from "../Components/Input";
 import app from "../Firebase"
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import { getFirestore, addDoc, collection} from "firebase/firestore";
+import { useAuthProvider } from "../context/Auth";
+import { UseSignUp } from "../utils/Auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-
+  const { func } = useAuthProvider()
     const [text, setText] = useState({
         name: "",
         email: "",
@@ -15,6 +18,7 @@ const SignUp = () => {
     })
     const auth = getAuth();
     const db = getFirestore(app);
+    const navigate = useNavigate();
     const userCollection = collection(db, "users");
     const messagesCollection = collection(db, "messages");
     
@@ -25,45 +29,17 @@ const SignUp = () => {
         }))
     }
 
+
+    
     //I should send the userId together too with the data sent to firestore.
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
       if(text.password !== text.confirmPassword) return console.log("I can't process this.");
 
-      createUserWithEmailAndPassword(auth, text.email, text.password)
-      .then((userCredential) => { 
-        console.log("user account created succesfully", userCredential);
-        updateProfile(auth.currentUser, {
-          displayName: text.name,
-        })
-        .then(success => {
-          console.log("updated user's name...", success)
-          addDoc(userCollection, {
-            name: text.name,
-            email: text.email,
-            img: "",
-            userUID: auth.currentUser.uid,
-            friends: []
-          })
-          .then(success => {
-            console.log("data sent successfully.", success)
-            addDoc(messagesCollection, {
-              name: text.name,
-              email: text.email,
-              userUID: userCredential.user.uid
-            })
-            .then(res => console.log("Message table updated", res))
-            .catch(err => console.log("error occured", err))
-          })
-          .catch(err => console.log(err))
-        })
-        .catch(err => console.log(err))
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-      });
+      const res = await UseSignUp(auth, text.email, text.password);
+      if(res.response === 'ok'){
+        navigate('/')
+      }
     }
   return (
     <section className="overall--container">

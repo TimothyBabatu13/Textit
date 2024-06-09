@@ -11,12 +11,15 @@ const ChatHeader = ({ data }) => {
 
 //   const isActive = true;
 
+const handleError = (e) => {
+  
+}
   return (
     <header style={styles.header}>
             <GoBack />
             <div className="cursor--pointer" style={styles.userDetails}>
                 <div style={styles.receipientImgContainer}>
-                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} src={data?.img || img} alt="reciepient image" />
+                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} onError={handleError} src={data?.img || img} alt="reciepient image" />
                     {data?.isActive && <div style={styles.isActive}></div>}
                 </div>
                 <div>

@@ -8,6 +8,7 @@ import friend1 from "../assets/images/friend1.png";
 import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
+import { useAuthProvider } from "../context/Auth";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
 //adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
@@ -16,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 
 
 const Message = () => {
+
+    const { details } = useAuthProvider()
 
     const userURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
     const AdilURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357";
