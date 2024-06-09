@@ -16,10 +16,7 @@ const ProtectedRoute = ({ children }) => {
         const arrOfLocation = loca;
         const neededArray = arrOfLocation[arrOfLocation.length -1];
         const location = `/${neededArray}`;
-        
-        const isLocation = location !== text;
-        if(isLocation && !isActive) return true
-        return false;
+        return location === text 
     }
 
 
@@ -39,7 +36,8 @@ const ProtectedRoute = ({ children }) => {
             } 
             else {
                 console.log('No user is signed in.');
-                navigate('/')   
+                if(validateIfTextIsEqual('/signup')) return navigate('/signup')
+                return navigate('/')   
             }
     }, );
     return () => {
