@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
 
 
     useEffect(()=>{
-        
+    
         let isUnsubscribed = false;
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (isUnsubscribed) return;
@@ -47,7 +47,7 @@ const ProtectedRoute = ({ children }) => {
     return () => {
         isUnsubscribed = true;
         unsubscribe();
-    }}, [loc]) 
+    }}, []) 
  
   return (
     <div>
