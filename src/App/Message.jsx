@@ -9,6 +9,8 @@ import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth";
+import { FetchRealTimeUpdate } from "../utils/User";
+import { useEffect, useState } from "react";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
 //adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
@@ -19,6 +21,7 @@ import { useAuthProvider } from "../context/Auth";
 const Message = () => {
 
     const { details } = useAuthProvider()
+    const [users, setUsers] = useState(null);
 
     const userURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
     const AdilURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357";
@@ -28,24 +31,6 @@ const Message = () => {
     const navigate = useNavigate();
     
     
-    const data = [
-        {
-            img: AdilURL,
-            name: "Adil"
-        },
-        {
-            img: marianaURL,
-            name: "Mariana"
-        },
-        {
-            img: deanURL,
-            name: "Dean"
-        },
-        {
-            img: marianaURL,
-            name: "Max"
-        },
-    ]
 
     const message = [
         {
@@ -136,6 +121,10 @@ const Message = () => {
         navigate(`/chat/${id}`);
     }
 
+    useEffect(()=>{
+        FetchRealTimeUpdate('users', setUsers)
+    }, [])
+
 
   return (
     <Background>
@@ -157,12 +146,14 @@ const Message = () => {
 
                   {/* Status */}
                   {
-                      data.map((friend, index) => (
-                          <div style={styles.friendsStatus} onClick={()=>handleNavigateToChat(friend.userUID || index)} className="cursor--pointer" key={index}>
-                            <img style={styles.friendsStatusImg} src={friend.img || user} alt={friend.name} />
+                      users && users.map((friend, index) => {
+
+                        if(friend.uid !== details.myUID) return(
+                          <div style={styles.friendsStatus} onClick={()=>handleNavigateToChat(friend.uid)} className="cursor--pointer" key={index}>
+                            <img style={styles.friendsStatusImg} src={friend.imgURL || user} alt={friend.name} />
                             <h5 style={{fontWeight:"lighter"}}>{friend.name}</h5>          
                           </div>
-                      ))
+                      )})
                   }
                
             </div>

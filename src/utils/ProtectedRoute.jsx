@@ -12,16 +12,16 @@ const ProtectedRoute = ({ children }) => {
     const loc = window.location.href
 
     const validateIfTextIsEqual = (text) => {
-        const loca = loc.split("/")
-        const arrOfLocation = loca;
-        const neededArray = arrOfLocation[arrOfLocation.length -1];
-        const location = `/${neededArray}`;
-        return location === text 
+        const loca = loc.split('/');
+        const re = loca[loca.length - 1];
+        
+        return `/${re}` === text;
     }
 
 
+
     useEffect(()=>{
-    
+
         let isUnsubscribed = false;
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (isUnsubscribed) return;
@@ -35,9 +35,14 @@ const ProtectedRoute = ({ children }) => {
                 return navigate('/message')
             } 
             else {
-                console.log('No user is signed in.');
-                if(validateIfTextIsEqual('/signup')) return navigate('/signup')
-                return navigate('/')   
+    
+                if(validateIfTextIsEqual('/signup')){
+     
+                    return navigate('/signup')
+                }
+                else{
+                    return navigate('/')
+                }   
             }
     }, );
     return () => {

@@ -7,6 +7,7 @@ import { getFirestore, addDoc, collection} from "firebase/firestore";
 import { useAuthProvider } from "../context/Auth";
 import { UseSignUp } from "../utils/Auth";
 import { useNavigate } from "react-router-dom";
+import { SendData } from "../utils/User";
 
 const SignUp = () => {
   const { func } = useAuthProvider()
@@ -38,6 +39,13 @@ const SignUp = () => {
 
       const res = await UseSignUp(auth, text.email, text.password);
       if(res.response === 'ok'){
+        SendData('users', {
+          uid: res.uid,
+          email: text.email,
+          friends: [],
+          name: text.name,
+          imgURL: ''
+        });
         navigate('/')
       }
     }

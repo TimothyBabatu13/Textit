@@ -8,9 +8,12 @@ import {
     Vector,
     Share
 } from "./Svg";
+import { useAuthProvider } from "../context/Auth";
+import { SendData } from "../utils/User";
+import { FieldValue, Timestamp, serverTimestamp } from "firebase/firestore";
 
 const SendMessage = ({ id, handleBackground }) => {
-
+    const { details: { myUID } } = useAuthProvider();
     // console.log(id)
 
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
@@ -34,7 +37,19 @@ const SendMessage = ({ id, handleBackground }) => {
 
     
     const handleSendMessage = async () =>{
-       
+        const data = {
+            uid1: myUID,
+            uid2: id,
+            senderUID: myUID,
+            type: 'msg',
+            content: text,
+            url: '',
+            timestamp: serverTimestamp()
+        }
+        console.log(data)
+        const res = await SendData('messages', data);
+        if(res === 'successful') setText('');
+
     }
     
   return (
