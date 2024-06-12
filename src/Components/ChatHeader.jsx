@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react";
 import GoBack from "./GoBack";
 // import img from "../assets/images/user.png";
 import { ChatHeaderCall, Video } from "./Svg";
-const ChatHeader = ({ data }) => {
-
+import { GetUserData } from "../utils/User";
+import { useRecipientProvider } from "../context/Message";
+const ChatHeader = ({ data, receipientUID }) => {
+  // const { details } = useRecipientProvider();
   const img = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
   
-
+  const [receipientDetails, setReceipientDetails] = useState(null);
     // console.log(data)
     // const {isActive, img, name} = data;
 
 //   const isActive = true;
+
+useEffect(()=>{
+  GetUserData(receipientUID, setReceipientDetails)
+}, [])
 
 const handleError = (e) => {
   
@@ -19,11 +26,11 @@ const handleError = (e) => {
             <GoBack />
             <div className="cursor--pointer" style={styles.userDetails}>
                 <div style={styles.receipientImgContainer}>
-                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} onError={handleError} src={data?.img || img} alt="reciepient image" />
+                    <img style={{height:"50px", width:"50px", borderRadius:"50%"}} onError={handleError} src={receipientDetails?.img || img} alt="reciepient image" />
                     {data?.isActive && <div style={styles.isActive}></div>}
                 </div>
                 <div>
-                    <h3>{data?.name}</h3>
+                    <h3>{receipientDetails?.name}</h3>
                     <h5>{data?.isActive ? "Active now": "Offline"}</h5>
                 </div>
             </div>

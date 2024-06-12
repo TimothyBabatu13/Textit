@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Poll,
     Location,
@@ -8,9 +9,13 @@ import {
     Camera
 } from "./Svg";
 
-const Modal = ({ closeModal }) => {
+const Modal = ({ closeModal, height }) => {
     
-    
+        const [file, setFile] = useState({
+            type: '',
+            file: []
+        })
+
         const getLocation = async () => {
             console.log("starting")
             //http://ip-api.com/json
@@ -66,11 +71,15 @@ const Modal = ({ closeModal }) => {
     const handleClick = (e) => {
         const input = document.querySelector(`#id${e}`);
         input && input.click()
+        
     }
 
+    const handleChange = e => {
+        console.log('changed', e.target.files[0])   
+    }
 
   return (
-    <section style={styles.container}>
+    <section style={{...styles.container, height: height}}>
         <div style={styles.header}>
             <div className="cursor--pointer" onClick={closeModal}>
                 <Cancel />
@@ -80,7 +89,7 @@ const Modal = ({ closeModal }) => {
         </div>
         <div>
               {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleSubmit(id, item.func, item.getData)} className="cursor--pointer" key={id}>
-                  {item.func && <input id={`id${id}`} style={styles.input} type="file" />}
+                  {item.func && <input id={`id${id}`} onChange={handleChange} style={styles.input} type="file" />}
                   <div style={styles.modalElementImg}>
                     {item.img}
                   </div>
@@ -104,6 +113,8 @@ const styles = {
         background: "white",
         borderTopRightRadius: "30px",
         borderTopLeftRadius: "30px",
+        transition: 'all',
+        transitionDuration: '5000ms'
     },
     header: {
         display: "flex",

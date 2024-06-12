@@ -18,6 +18,7 @@ const SendMessage = ({ id, handleBackground }) => {
 
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
     const [openModal, setOpenModal] = useState(false);
+    const [modalHeight, setModalHeight] = useState('0px');
     
    
     
@@ -27,16 +28,19 @@ const SendMessage = ({ id, handleBackground }) => {
 
     const handleModal = ()=>{
         setOpenModal(true);
+        setModalHeight('auto');
         handleBackground(true)
     }
     
     const closeModal = ()=>{
         setOpenModal(false);
+        setModalHeight('0px');
         handleBackground(false)
     }
 
     
     const handleSendMessage = async () =>{
+        if(!text) return
         const data = {
             uid1: myUID,
             uid2: id,
@@ -46,10 +50,13 @@ const SendMessage = ({ id, handleBackground }) => {
             url: '',
             timestamp: serverTimestamp()
         }
-        console.log(data)
+        // console.log(data)
         const res = await SendData('messages', data);
         if(res === 'successful') setText('');
-
+        const users = await SendData('msgUser', {
+            user1: myUID,
+            user2: id
+        })
     }
     
   return (
@@ -71,7 +78,7 @@ const SendMessage = ({ id, handleBackground }) => {
                   <MicroPhone />
               </div>
         </div>
-        {openModal && <Modal closeModal={closeModal} />}
+        {openModal && <Modal height={modalHeight} closeModal={closeModal} />}
     </div>
   )
 }

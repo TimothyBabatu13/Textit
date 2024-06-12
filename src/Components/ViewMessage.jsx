@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuthProvider } from "../context/Auth";
 
 const ViewMessage = ({ data, group }) => {
@@ -6,7 +7,7 @@ const ViewMessage = ({ data, group }) => {
   
     const msg = data;
     // console.log(msg)
-
+   
   return (
     <div style={{width: "fit-content", marginLeft: msg?.senderUID === myUID ? "auto": "0"}}> 
         <div style={{display: "flex", alignItems:"center", marginBottom: "10px"}}>

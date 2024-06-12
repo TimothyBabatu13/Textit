@@ -9,7 +9,7 @@ import friend2 from "../assets/images/friend2.png";
 import friend3 from "../assets/images/friend3.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth";
-import { FetchRealTimeUpdate } from "../utils/User";
+import { FetchRealTimeUpdate, GetUserData } from "../utils/User";
 import { useEffect, useState } from "react";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
@@ -22,6 +22,9 @@ const Message = () => {
 
     const { details } = useAuthProvider()
     const [users, setUsers] = useState(null);
+    const [usersList, setUsersList] = useState(null);
+    const [usersInfo, setUsersInfo] = useState([]);
+    
 
     const userURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
     const AdilURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357";
@@ -29,7 +32,12 @@ const Message = () => {
     const deanURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend3.png?alt=media&token=8dc23146-bdd6-4f51-8949-e600ba6a5deb";
   
     const navigate = useNavigate();
-    
+
+    const usersMsgs = usersList?.filter((message) => (message.user1 === details.myUID) || (message.user2 === details.myUID) )
+    const listOfIds = usersMsgs?.map(ids => {
+        return ids.user1 === details.myUID ? ids.user2 : ids.user1
+    })
+    const realListOfIDs = [...new Set(listOfIds)];
     
 
     const message = [
@@ -116,6 +124,9 @@ const Message = () => {
         },
     ]
 
+    useEffect(()=>{
+        FetchRealTimeUpdate('msgUser', setUsersList);
+    }, [])
     const handleNavigateToChat = (id) => {
         console.log("hi")
         navigate(`/chat/${id}`);

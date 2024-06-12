@@ -1,11 +1,14 @@
 import {  useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 
 const ProtectedRoute = ({ children }) => {
+    //loading is the one that will take care of
+    //the animation for me 
+    const [loading, setLoading] = useState(true);
     const auth = getAuth();
     const navigate = useNavigate()
     const { details : { isActive }, func } = useAuthProvider();
@@ -18,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
         return `/${re}` === text;
     }
 
-
+    
 
     useEffect(()=>{
 
@@ -31,17 +34,18 @@ const ProtectedRoute = ({ children }) => {
                     isActive: true,
                     myUID: user.uid
                 })) 
-
-                return navigate('/message')
+                navigate('/message')
+                setLoading(false)
             } 
             else {
     
                 if(validateIfTextIsEqual('/signup')){
-     
-                    return navigate('/signup')
+                    navigate('/signup')
+                    setLoading(false)
                 }
                 else{
-                    return navigate('/')
+                    navigate('/')
+                    setLoading(false)
                 }   
             }
     }, );
@@ -50,6 +54,9 @@ const ProtectedRoute = ({ children }) => {
         unsubscribe();
     }}, []) 
  
+    if(loading){
+        return <h1>Please wait...</h1>
+    }
   return (
     <div>
         {children}
