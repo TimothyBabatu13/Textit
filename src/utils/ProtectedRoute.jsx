@@ -44,7 +44,7 @@ const ProtectedRoute = ({ children }) => {
                     setLoading(false)
                 }
                 else{
-                    navigate('/')
+                    // navigate('/')
                     setLoading(false)
                 }   
             }

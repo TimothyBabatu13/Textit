@@ -3,14 +3,15 @@ import Modal from "./Modal";
 import { useState } from "react";
 
 import {
-    File,
     MicroPhone,
     Vector,
-    Share
+    Share,
+    Send
 } from "./Svg";
 import { useAuthProvider } from "../context/Auth";
 import { SendData } from "../utils/User";
-import { FieldValue, Timestamp, serverTimestamp } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
+import app from "../Firebase";
 
 const SendMessage = ({ id, handleBackground }) => {
     const { details: { myUID } } = useAuthProvider();
@@ -41,6 +42,7 @@ const SendMessage = ({ id, handleBackground }) => {
     
     const handleSendMessage = async () =>{
         if(!text) return
+        if(text.trim() === '') return
         const data = {
             uid1: myUID,
             uid2: id,
@@ -50,13 +52,37 @@ const SendMessage = ({ id, handleBackground }) => {
             url: '',
             timestamp: serverTimestamp()
         }
-        // console.log(data)
+  
         const res = await SendData('messages', data);
         if(res === 'successful') setText('');
-        const users = await SendData('msgUser', {
-            user1: myUID,
-            user2: id
-        })
+        const checkIfDataExists = async () => {
+            const db = getFirestore(app)
+            const co = collection(db, 'msgUser')
+            
+            const docSnap = await getDocs(co);
+            const usersList = docSnap.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            
+            const checkIf = usersList.filter(person => (person.user1 === myUID && person.user2 === id) || (person.user2 === myUID && person.user1 === id))
+            if(checkIf.length < 1){
+                const users = await SendData('msgUser', {
+                    user1: myUID,
+                    user2: id,
+                    lastMessage: text,
+                    timestamp: serverTimestamp()
+                })
+                return;
+            }
+            const newDoc = doc(db, "msgUser", checkIf[0].id);
+            await updateDoc(newDoc, {
+                lastMessage: text,
+                timestamp: serverTimestamp()
+              });
+            
+        }
+        checkIfDataExists()
     }
     
   return (
@@ -67,13 +93,10 @@ const SendMessage = ({ id, handleBackground }) => {
         <div style={styles.userInput}>
               <textarea value={text} onChange={handleChange} style={{ width: "100%", padding: "10px", resize: "none", height: "40px", borderRadius: "10px" }} name="" id="" cols="30" rows="10"></textarea>
               <div className="cursor--pointer" onClick={handleSendMessage} style={styles.fileIcons}>
-                  <File />
+                  <Send />
               </div>
         </div>
           <div style={styles.rightButtons}>
-              <div className="cursor--pointer">
-                  <Vector />
-              </div>
               <div className="cursor--pointer">
                   <MicroPhone />
               </div>
@@ -104,7 +127,7 @@ const styles = {
     },
     fileIcons: {
         position: "absolute",
-        right: "10px"
+        right: "15px"
     },
     rightButtons : {
         display: "flex",

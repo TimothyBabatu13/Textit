@@ -27,11 +27,11 @@ const handleError = (e) => {
             <div className="cursor--pointer" style={styles.userDetails}>
                 <div style={styles.receipientImgContainer}>
                     <img style={{height:"50px", width:"50px", borderRadius:"50%"}} onError={handleError} src={receipientDetails?.img || img} alt="reciepient image" />
-                    {data?.isActive && <div style={styles.isActive}></div>}
+                    {receipientDetails?.isActive && <div style={styles.isActive}></div>}
                 </div>
                 <div>
                     <h3>{receipientDetails?.name}</h3>
-                    <h5>{data?.isActive ? "Active now": "Offline"}</h5>
+                    <h5>{receipientDetails?.isActive ? "Active now": "Offline"}</h5>
                 </div>
             </div>
           <div style={styles.call}>

@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth";
 import { FetchRealTimeUpdate, GetUserData } from "../utils/User";
 import { useEffect, useState } from "react";
+import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
+import app from "../Firebase";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
 //adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
@@ -34,11 +36,73 @@ const Message = () => {
     const navigate = useNavigate();
 
     const usersMsgs = usersList?.filter((message) => (message.user1 === details.myUID) || (message.user2 === details.myUID) )
-    const listOfIds = usersMsgs?.map(ids => {
-        return ids.user1 === details.myUID ? ids.user2 : ids.user1
-    })
-    const realListOfIDs = [...new Set(listOfIds)];
+    console.log(usersMsgs)
     
+
+    const fetchData = async () => {
+        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
+        const db = getFirestore(app);
+
+        /* 
+
+        const mySongs = order === true ?  query(collection(db, myCollection), orderBy("timestamp")) : collection(db, myCollection) 
+    let isUnsubscribed = false;
+    
+    // const q = query(collection(db, "your-collection"), orderBy("timestamp"));
+    const unsub = onSnapshot(mySongs, (result)=>{
+        if (isUnsubscribed) return;
+        const data = result.docs.map(item => item.data());
+        func(data)
+    })
+   
+    return () => {
+        isUnsubscribed = true;
+        unsubscribe();
+    }
+
+        */
+
+        const data = [];
+        for(let i of returnOnlyIds){
+            const q = query(collection(db, "users"), where("uid", "==", i?.id));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                data.push(doc.data());
+                // console.log(doc.id, " => ", doc.data());
+
+            });
+        }
+        return [data, returnOnlyIds];
+    }
+    // const realListOfIDs = [...new Set(listOfIds)];
+   
+    useEffect(()=>{
+        fetchData().then(res => {
+            const [data, msg] = res;
+            const newArr = [];
+            console.log(data);
+            console.log(msg)
+            for(let i in data){
+                for(let j in msg){
+                    if(data[i].uid === msg[j].id){
+                        newArr.push({
+                            ...data[i],
+                            ...msg[j]
+                        })
+                    }
+                }
+            }
+            const dataNeeded = [...new Set(newArr)];
+            // console.log(dataNeeded)
+            setUsersInfo(dataNeeded)
+        })
+    },[usersList])
+    const randomURL = [AdilURL, marianaURL, deanURL];
+
+    const getRandomNumber = () => {
+        return Math.floor(Math.random() * randomURL.length);
+    }
 
     const message = [
         {
@@ -127,6 +191,7 @@ const Message = () => {
     useEffect(()=>{
         FetchRealTimeUpdate('msgUser', setUsersList);
     }, [])
+
     const handleNavigateToChat = (id) => {
         console.log("hi")
         navigate(`/chat/${id}`);
@@ -161,7 +226,7 @@ const Message = () => {
 
                         if(friend.uid !== details.myUID) return(
                           <div style={styles.friendsStatus} onClick={()=>handleNavigateToChat(friend.uid)} className="cursor--pointer" key={index}>
-                            <img style={styles.friendsStatusImg} src={friend.imgURL || user} alt={friend.name} />
+                            <img style={styles.friendsStatusImg} src={friend.imgURL || randomURL[getRandomNumber()]} alt={friend.name} />
                             <h5 style={{fontWeight:"lighter"}}>{friend.name}</h5>          
                           </div>
                       )})
@@ -172,21 +237,21 @@ const Message = () => {
         </section>
         <RenderHomeBackground>
             
-            {message.map((person, id) => (
+            {usersInfo &&  usersInfo.map((person, id) => (
                         <div onClick={()=> {
-                            handleNavigateToChat(id)
+                            handleNavigateToChat(person?.uid)
                             //handleNavigateToChat(person.recipientUid)
                         }} className="cursor--pointer list--user--message" style={styles.message} key={id}>
                             <div style={styles.messageImageContainer}>
-                                <img style={styles.messageImage} src={person.img} alt="receipient image" />
-                                {person.isActive && <div style={styles.greenDot}></div>}
+                                <img style={styles.messageImage} src={person.img || user} alt="receipient image" />
+                                {person?.isActive && <div style={styles.greenDot}></div>}
                             </div>
                             <div style={styles.messageDetails}>
-                                <h4 style={styles.messageDetailsName}>{person.name}</h4>
-                                <p style={styles.messageDetailsP}>{person.message}</p>
+                                <h4 style={styles.messageDetailsName}>{person?.name}</h4>
+                                <p style={styles.messageDetailsP}>{person?.lastMessage}</p>
                             </div>
                             <div style={styles.timeSentDetails}>
-                                <h6>{person.timeSent}</h6>
+                                <h6>{person?.timeSent}</h6>
                                 <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{person.noOfUnreadMessages && <p style={styles.noOfUnreadMessages}>{person.noOfUnreadMessages}</p>}</div>
                             </div>
                         </div>

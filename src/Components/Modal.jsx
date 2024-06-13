@@ -29,13 +29,15 @@ const Modal = ({ closeModal, height }) => {
             img: <Camera />,
             text: "Camera",
             desc: "",
-            func: true
+            func: true,
+            type: 'img'
         },
         {
             img: <Document />,
             text: "Documents",
             desc: "Share your files",
-            func: true
+            func: true,
+            type: ''
         },
         {
             img: <Poll />,
@@ -75,7 +77,10 @@ const Modal = ({ closeModal, height }) => {
     }
 
     const handleChange = e => {
-        console.log('changed', e.target.files[0])   
+        setFile({
+            type: '',
+            file: e.target.files[0]
+        }) 
     }
 
   return (
@@ -114,7 +119,8 @@ const styles = {
         borderTopRightRadius: "30px",
         borderTopLeftRadius: "30px",
         transition: 'all',
-        transitionDuration: '5000ms'
+        transitionDuration: '5000ms',
+        overflow: 'hidden'
     },
     header: {
         display: "flex",
