@@ -36,7 +36,7 @@ const Message = () => {
     const navigate = useNavigate();
 
     const usersMsgs = usersList?.filter((message) => (message.user1 === details.myUID) || (message.user2 === details.myUID) )
-    console.log(usersMsgs)
+    // console.log(usersMsgs)
     
 
     const fetchData = async () => {
@@ -81,8 +81,8 @@ const Message = () => {
         fetchData().then(res => {
             const [data, msg] = res;
             const newArr = [];
-            console.log(data);
-            console.log(msg)
+            // console.log(data);
+            // console.log(msg)
             for(let i in data){
                 for(let j in msg){
                     if(data[i].uid === msg[j].id){
