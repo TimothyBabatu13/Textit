@@ -13,6 +13,7 @@ import { FetchRealTimeUpdate, GetUserData } from "../utils/User";
 import { useEffect, useState } from "react";
 import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
 import app from "../Firebase";
+import { formatDate } from "../utils/formatDate";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
 //adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
@@ -80,6 +81,7 @@ const Message = () => {
     useEffect(()=>{
         fetchData().then(res => {
             const [data, msg] = res;
+   
             const newArr = [];
             // console.log(data);
             // console.log(msg)
@@ -88,13 +90,13 @@ const Message = () => {
                     if(data[i].uid === msg[j].id){
                         newArr.push({
                             ...data[i],
-                            ...msg[j]
+                            ...msg[j],
+                            timestamp: msg[j].timestamp.toDate()
                         })
                     }
                 }
             }
             const dataNeeded = [...new Set(newArr)];
-            // console.log(dataNeeded)
             setUsersInfo(dataNeeded)
         })
     },[usersList])
@@ -251,7 +253,7 @@ const Message = () => {
                                 <p style={styles.messageDetailsP}>{person?.lastMessage}</p>
                             </div>
                             <div style={styles.timeSentDetails}>
-                                <h6>{person?.timeSent}</h6>
+                                <h6 style={{fontSize: '12px'}}>{formatDate(person?.timestamp)}</h6>
                                 <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{person.noOfUnreadMessages && <p style={styles.noOfUnreadMessages}>{person.noOfUnreadMessages}</p>}</div>
                             </div>
                         </div>
