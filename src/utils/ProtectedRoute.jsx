@@ -34,7 +34,6 @@ const ProtectedRoute = ({ children }) => {
                     isActive: true,
                     myUID: user.uid
                 })) 
-                navigate('/message')
                 setLoading(false)
             } 
             else {

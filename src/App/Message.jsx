@@ -195,7 +195,6 @@ const Message = () => {
     }, [])
 
     const handleNavigateToChat = (id) => {
-        console.log("hi")
         navigate(`/chat/${id}`);
     }
 

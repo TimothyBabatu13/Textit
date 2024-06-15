@@ -12,6 +12,7 @@ import { useAuthProvider } from "../context/Auth";
 import { SendData } from "../utils/User";
 import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
 import app from "../Firebase";
+import Record from "./Record";
 
 const SendMessage = ({ id, handleBackground }) => {
     const { details: { myUID } } = useAuthProvider();
@@ -20,6 +21,8 @@ const SendMessage = ({ id, handleBackground }) => {
     const [text, setText] = useState(JSON.parse(localStorage.getItem(id))||"");
     const [openModal, setOpenModal] = useState(false);
     const [modalHeight, setModalHeight] = useState('0px');
+    //set record to true at first
+   
     
    
     
@@ -85,6 +88,7 @@ const SendMessage = ({ id, handleBackground }) => {
         checkIfDataExists()
     }
     
+    
   return (
       <div style={styles.sendMessageContainer}>
           <div className="cursor--pointer" onClick={handleModal}>
@@ -96,11 +100,7 @@ const SendMessage = ({ id, handleBackground }) => {
                   <Send />
               </div>
         </div>
-          <div style={styles.rightButtons}>
-              <div className="cursor--pointer">
-                  <MicroPhone />
-              </div>
-        </div>
+          <Record />
         {openModal && <Modal height={modalHeight} closeModal={closeModal} />}
     </div>
   )
@@ -129,10 +129,6 @@ const styles = {
         position: "absolute",
         right: "15px"
     },
-    rightButtons : {
-        display: "flex",
-        alignItems: "center"
-    }
 }
 
 export default SendMessage
