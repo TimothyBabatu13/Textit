@@ -102,7 +102,7 @@ const Record = () => {
     <div style={styles.rightButtons} onClick={handleClick}>
         <div className={`cursor--pointer ${isPlaying ? "mic" : ""}`}>
             <MicroPhone />
-            <audio src="gs://textit-30e31.appspot.com/blob:http:/localhost:5173/fc75ba9f-f081-4db4-a08b-b89a80081e19" controls></audio>
+            {/* <audio src="gs://textit-30e31.appspot.com/blob:http:/localhost:5173/fc75ba9f-f081-4db4-a08b-b89a80081e19" controls></audio> */}
         </div>
      
     {audio ? (
