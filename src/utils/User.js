@@ -1,4 +1,5 @@
 import { addDoc, collection, getFirestore, doc, onSnapshot, query, orderBy, where } from "firebase/firestore"
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import app from "../Firebase"
 export const SendMessage = () => {
 
@@ -59,3 +60,14 @@ query db and check if senderUID is not equal to userUID.
 Them check for the number of notSeen messages. 
 */
 
+
+
+export const UploadFile = (URL) => {
+    const storage = getStorage();
+const storageRef = ref(storage, URL);
+    uploadBytes(storageRef, URL).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot)
+      })
+
+}
