@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { FormatFirebaseError } from './formatFirebaseError';
 
 
 export const useLogin = async (auth, email, password) => {
@@ -16,7 +17,7 @@ export const useLogin = async (auth, email, password) => {
         console.log(errorCode, errorMessage)
         return {
             response: '404',
-            details: ''
+            details: errorMessage
         }
     });
 
@@ -36,8 +37,10 @@ export const UseSignUp = async (auth, email, password) => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      // console.log(FormatFirebaseError(errorMessage))
       return {
         response: "404",
+        errorMessage
       }
       // ..
     });

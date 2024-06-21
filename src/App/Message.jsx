@@ -11,9 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth";
 import { FetchRealTimeUpdate, GetUserData } from "../utils/User";
 import { useEffect, useState } from "react";
-import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, getFirestore, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import app from "../Firebase";
 import { formatDate } from "../utils/formatDate";
+import { MusicNote } from "../Components/Svg";
 
 //user--- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9
 //adil-- https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357
@@ -27,7 +28,7 @@ const Message = () => {
     const [users, setUsers] = useState(null);
     const [usersList, setUsersList] = useState(null);
     const [usersInfo, setUsersInfo] = useState([]);
-    
+    const [noOfUnseenMsgs, setNoOfUnseenMsgs] = useState(null); 
 
     const userURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/user.png?alt=media&token=2b34388c-9d32-44a1-bf7c-25fb110373b9";
     const AdilURL = "https://firebasestorage.googleapis.com/v0/b/textit-30e31.appspot.com/o/friend1.png?alt=media&token=9ec0cc7b-7b82-4525-bd72-4015f4ec3357";
@@ -41,11 +42,10 @@ const Message = () => {
     
 
     const fetchData = async () => {
-        
-        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
+        // console.log(usersMsgs)
+        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen, type: person.type} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage, type: person.type});
         const db = getFirestore(app);
 
-        // console.log(returnOnlyIds)
         /* 
 
         const mySongs = order === true ?  query(collection(db, myCollection), orderBy("timestamp")) : collection(db, myCollection) 
@@ -83,9 +83,42 @@ const Message = () => {
     // const realListOfIDs = [...new Set(listOfIds)];
    
     //useEffect to get number of unread messages;
-    useEffect(() => {
+    const getAllMessages = () => {
 
-    }, [])
+    }
+    // useEffect(() => {
+    //     const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
+    //     const onlyID = returnOnlyIds?.map(item => item.id)
+        
+        
+          
+    //     const fetchUsersMessages = ()=> {
+    //         const db = getFirestore(app);
+    //         const users = collection(db, 'messages') 
+    //         let isUnsubscribed = false;
+            
+    //         const unsub = onSnapshot(users, (result)=>{
+    //             if (isUnsubscribed) return;
+    //             const data = result.docs.map(item => item.data());
+
+    //             const arrOfFilter = [];
+    //             for(let i = 0; i < onlyID?.length; i++){
+    //                 const filtered = data.filter(item => item.uid1 === onlyID[i] || item.uid2 === onlyID[i]);
+    //                 arrOfFilter.push(filtered)
+    //             }
+
+    //             setNoOfUnseenMsgs(arrOfFilter);
+    //         })
+        
+    //         return () => {
+    //             isUnsubscribed = true;
+    //             unsubscribe();
+    //         }
+    //     }
+    //     fetchUsersMessages();
+
+    // }, [usersList])
+
     useEffect(()=>{
         fetchData().then(res => {
             const [data, msg] = res;
@@ -104,7 +137,8 @@ const Message = () => {
                     }
                 }
             }
-            const dataNeeded = [...new Set(newArr)];
+            const dataNeeded = [...new Set(newArr)].sort((a,b) => b.timestamp.getTime() - a.timestamp.getTime());
+            // console.log(dataNeeded)
             setUsersInfo(dataNeeded)
         })
     },[usersList])
@@ -235,8 +269,8 @@ const Message = () => {
 
                         if(friend.uid !== details.myUID) return(
                           <div style={styles.friendsStatus} onClick={()=>handleNavigateToChat(friend.uid)} className="cursor--pointer" key={index}>
-                            <img style={styles.friendsStatusImg} src={friend.imgURL || randomURL[getRandomNumber()]} alt={friend.name} />
-                            <h5 style={{fontWeight:"lighter"}}>{friend.name}</h5>          
+                            <img style={styles.friendsStatusImg} src={friend.imgURL || randomURL[2]} alt={friend.name} />
+                            <h5 style={{fontWeight:"lighter"}}>{friend.name.length > 10 ? friend.name.slice(0, 12) : friend.name}</h5>          
                           </div>
                       )})
                   }
@@ -246,8 +280,15 @@ const Message = () => {
         </section>
         <RenderHomeBackground>
             
-            {usersInfo &&  usersInfo.map((person, id) => (
-                        <div onClick={()=> {
+            {usersInfo &&  usersInfo.map((person, id) => {
+                // const newArr = [];
+                // for(let i = 0; i < noOfUnseenMsgs.length; i++){
+                //     console.log(noOfUnseenMsgs[i])
+                //     const filter = noOfUnseenMsgs[i].filter(item => item.seen);
+                //     console.log(filter)
+                // }
+                // console.log(person)
+                        return <div onClick={()=> {
                             handleNavigateToChat(person?.uid)
                             //handleNavigateToChat(person.recipientUid)
                         }} className="cursor--pointer list--user--message" style={styles.message} key={id}>
@@ -257,14 +298,14 @@ const Message = () => {
                             </div>
                             <div style={styles.messageDetails}>
                                 <h4 style={styles.messageDetailsName}>{person?.name}</h4>
-                                <p style={styles.messageDetailsP}>{person?.lastMessage}</p>
+                                <p style={styles.messageDetailsP}>{person?.type === 'msg' ? person?.lastMessage.length < 25 ? person?.lastMessage : `${person?.lastMessage.slice(0, 19)}...` : <MusicNote />}</p>
                             </div>
                             <div style={styles.timeSentDetails}>
                                 <h6 style={{fontSize: '12px'}}>{formatDate(person?.timestamp)}</h6>
-                                <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{person.noOfUnreadMessages && <p style={styles.noOfUnreadMessages}>{person.noOfUnreadMessages}</p>}</div>
+                                <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{noOfUnseenMsgs && <p style={styles.noOfUnreadMessages}>{person.noOfUnreadMessages}</p>}</div>
                             </div>
                         </div>
-                    ))}
+                    })}
         </RenderHomeBackground>
         <Footer />
     
@@ -345,7 +386,7 @@ const styles = {
     },
     messageDetailsP: {
         fontWeight: "lighter",
-        fontSize: "0.8em"
+        fontSize: "0.8em",
     },
     timeSentDetails: {
         marginLeft: "auto",

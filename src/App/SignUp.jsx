@@ -3,11 +3,14 @@ import GoBack from "../Components/GoBack";
 import Input from "../Components/Input";
 import app from "../Firebase"
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getFirestore, addDoc, collection} from "firebase/firestore";
 import { useAuthProvider } from "../context/Auth";
 import { UseSignUp } from "../utils/Auth";
 import { useNavigate } from "react-router-dom";
 import { SendData } from "../utils/User";
+import { FormatFirebaseError } from "../utils/formatFirebaseError";
 
 const SignUp = () => {
   const { func } = useAuthProvider()
@@ -35,10 +38,18 @@ const SignUp = () => {
     //I should send the userId together too with the data sent to firestore.
     const handleSubmit = async (e) => {
       e.preventDefault();
-      if(text.password !== text.confirmPassword) return console.log("I can't process this.");
+      if(text.password !== text.confirmPassword) {
+        console.log("I can't process this.")
+        toast.error('passwords do not match')
+        return;
+      };
 
       const res = await UseSignUp(auth, text.email, text.password);
+      if(res.errorMessage){
+        toast.error(FormatFirebaseError(res.errorMessage))
+      }
       if(res.response === 'ok'){
+        toast.success('account created')
         SendData('users', {
           uid: res.uid,
           email: text.email,
@@ -51,6 +62,7 @@ const SignUp = () => {
     }
   return (
     <section className="overall--container">
+      <ToastContainer />
         <GoBack />
         <form onSubmit={handleSubmit} style={styles.form} action="" >
             <h5 style={styles.h5}>Sign up with Email</h5>

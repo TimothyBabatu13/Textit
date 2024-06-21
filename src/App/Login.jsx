@@ -8,6 +8,8 @@ import { Facebook, Apple, Google } from './../Components/Svg';
 import { useLogin } from "../utils/Auth";
 import { getAuth } from "firebase/auth";
 import { useAuthProvider } from "../context/Auth";
+import { ToastContainer, toast } from 'react-toastify';
+import { FormatFirebaseError } from "../utils/formatFirebaseError";
 
 
 const Login = () => {
@@ -33,7 +35,11 @@ const Login = () => {
   const handleSubmit = async (e) =>{
     e.preventDefault();
     const res = await useLogin(auth, text.email, text.password)
+    if(res.response === '404'){
+      toast.error(FormatFirebaseError(res.details))
+    }
     if(res.response === 'ok'){
+      toast.success('login succesful')
       navigate('/message')
       func(prev => ({
         ...prev,
@@ -50,6 +56,7 @@ const Login = () => {
   
   return (
     <section className="overall--container">
+      <ToastContainer />
         <GoBack />
         <form style={styles.form} className="login--form" action="" onSubmit={handleSubmit}>
             <h5 style={styles.h5}>Log in to Chatbox</h5>
@@ -90,6 +97,7 @@ const Login = () => {
             />
             <button className="cursor--pointer" style={styles.button} type="submit">Log in</button>
             <a style={styles.link} onClick={handleResetPassword} href="">Forgot password?</a>
+            <a style={styles.link} href="/signup">Sign up</a>
         </form>
     </section>
   )
