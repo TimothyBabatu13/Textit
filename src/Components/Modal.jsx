@@ -30,14 +30,16 @@ const Modal = ({ closeModal, height }) => {
             text: "Camera",
             desc: "",
             func: true,
-            type: 'img'
+            type: 'img',
+            accept: 'capture=camera,image/*'
         },
         {
             img: <Document />,
             text: "Documents",
             desc: "Share your files",
             func: true,
-            type: ''
+            type: 'doc',
+            accept: '.epub, .pdf, .mp3, .wav, .mp4, .avi, .mov, .doc, .docx, .webm'
         },
         {
             img: <Poll />,
@@ -49,13 +51,16 @@ const Modal = ({ closeModal, height }) => {
             img: <Media />,
             text: "Media",
             desc: "Share photos and videos",
-            func: true
+            func: true,
+            type: '',
+            accept: 'image/*,video/*'
         },
         {
             img: <Contact />,
             text: "Contact",
             desc: "Share your contacts",
-            func: false
+            func: false,
+            type: ''
         },
         {
             img: <Location />,
@@ -65,6 +70,12 @@ const Modal = ({ closeModal, height }) => {
             getData: getLocation
         },
     ]
+
+    const checkIfDataEquals = (data, text) => {
+        const arrOfData = data.split('.');
+        const lastWord = arrOfData[arrOfData.length - 1];
+        return lastWord === text;
+    }
 
     const handleSubmit = (id, fun, func) => {
         fun && handleClick(id)
@@ -83,6 +94,8 @@ const Modal = ({ closeModal, height }) => {
         }) 
     }
 
+    console.log(checkIfDataEquals(file?.file?.name, 'png'))
+
   return (
     <section style={{...styles.container, height: height}}>
         <div style={styles.header}>
@@ -94,7 +107,7 @@ const Modal = ({ closeModal, height }) => {
         </div>
         <div>
               {data.map((item, id) => <div style={styles.modalElement} onClick={()=> handleSubmit(id, item.func, item.getData)} className="cursor--pointer" key={id}>
-                  {item.func && <input id={`id${id}`} onChange={handleChange} style={styles.input} type="file" />}
+                  {item.func && <input id={`id${id}`} accept={item.accept || ''} onChange={handleChange} style={styles.input} type="file" />}
                   <div style={styles.modalElementImg}>
                     {item.img}
                   </div>

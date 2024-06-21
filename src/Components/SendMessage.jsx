@@ -10,11 +10,11 @@ import {
 } from "./Svg";
 import { useAuthProvider } from "../context/Auth";
 import { SendData } from "../utils/User";
-import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, updateDoc } from "firebase/firestore";
 import app from "../Firebase";
 import Record from "./Record";
 
-const SendMessage = ({ id, handleBackground }) => {
+const SendMessage = ({ id, handleBackground, data }) => {
     const { details: { myUID } } = useAuthProvider();
     // console.log(id)
 
@@ -41,7 +41,6 @@ const SendMessage = ({ id, handleBackground }) => {
         setModalHeight('0px');
         handleBackground(false)
     }
-
     
     const handleSendMessage = async () =>{
         if(!text) return
@@ -53,7 +52,8 @@ const SendMessage = ({ id, handleBackground }) => {
             type: 'msg',
             content: text,
             url: '',
-            timestamp: serverTimestamp()
+            timestamp: serverTimestamp(),
+            seen: false
         }
   
         const res = await SendData('messages', data);
@@ -74,21 +74,25 @@ const SendMessage = ({ id, handleBackground }) => {
                     user1: myUID,
                     user2: id,
                     lastMessage: text,
-                    timestamp: serverTimestamp()
+                    type: 'msg',
+                    timestamp: serverTimestamp(),
+                    noOfUnSeen: 1
                 })
                 return;
             }
             const newDoc = doc(db, "msgUser", checkIf[0].id);
+            
             await updateDoc(newDoc, {
                 lastMessage: text,
-                timestamp: serverTimestamp()
+                timestamp: serverTimestamp(),
+                type: 'msg',
               });
             
         }
         checkIfDataExists()
     }
     
-    
+  
   return (
       <div style={styles.sendMessageContainer}>
           <div className="cursor--pointer" onClick={handleModal}>
@@ -100,7 +104,7 @@ const SendMessage = ({ id, handleBackground }) => {
                   <Send />
               </div>
         </div>
-          <Record />
+          <Record myUID={myUID} id={id} />
         {openModal && <Modal height={modalHeight} closeModal={closeModal} />}
     </div>
   )

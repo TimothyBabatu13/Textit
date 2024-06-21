@@ -41,9 +41,11 @@ const Message = () => {
     
 
     const fetchData = async () => {
-        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
+        
+        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
         const db = getFirestore(app);
 
+        // console.log(returnOnlyIds)
         /* 
 
         const mySongs = order === true ?  query(collection(db, myCollection), orderBy("timestamp")) : collection(db, myCollection) 
@@ -66,7 +68,9 @@ const Message = () => {
         const data = [];
         for(let i of returnOnlyIds){
             const q = query(collection(db, "users"), where("uid", "==", i?.id));
+            
             const querySnapshot = await getDocs(q);
+            
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 data.push(doc.data());
@@ -78,6 +82,10 @@ const Message = () => {
     }
     // const realListOfIDs = [...new Set(listOfIds)];
    
+    //useEffect to get number of unread messages;
+    useEffect(() => {
+
+    }, [])
     useEffect(()=>{
         fetchData().then(res => {
             const [data, msg] = res;

@@ -36,9 +36,9 @@ const Chat = () => {
 
     const msg = messages?.filter((message) => (message.uid1 === myUID && message.uid2 === id) || (message.uid1 === id && message.uid2 === myUID) )
     
-  
-   
-
+    useEffect(()=>{
+        
+    }, [msg])
 
     return (
     <section className="overall--container" style={{background: background ? "black" : ""}}>
@@ -48,7 +48,7 @@ const Chat = () => {
                 <ViewMessage key={id} data={message} group={false} />
             ))}
         </div>
-        <SendMessage handleBackground={(e) => setBackground(e)} id={id} />
+        <SendMessage data={msg} handleBackground={(e) => setBackground(e)} id={id} />
       
     </section>
   )
