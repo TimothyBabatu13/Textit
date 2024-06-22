@@ -2,6 +2,7 @@ import {  useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../context/Auth"
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import LoadingAnimation from "../Components/LoadingAnimation";
 
 
 
@@ -54,7 +55,7 @@ const ProtectedRoute = ({ children }) => {
     }}, []) 
  
     if(loading){
-        return <h1>Please wait...</h1>
+        return <LoadingAnimation />
     }
   return (
     <div>
