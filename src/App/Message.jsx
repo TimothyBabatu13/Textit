@@ -86,38 +86,38 @@ const Message = () => {
     const getAllMessages = () => {
 
     }
-    // useEffect(() => {
-    //     const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
-    //     const onlyID = returnOnlyIds?.map(item => item.id)
+    useEffect(() => {
+        const returnOnlyIds = usersMsgs?.map(person => person.user1 === details.myUID ? {id: person.user2, timestamp: person.timestamp, lastMessage: person.lastMessage, noOfUnreadMessages: person.noOfUnSeen} : {id:person.user1, timestamp: person.timestamp, lastMessage: person.lastMessage});
+        const onlyID = returnOnlyIds?.map(item => item.id)
         
         
-          
-    //     const fetchUsersMessages = ()=> {
-    //         const db = getFirestore(app);
-    //         const users = collection(db, 'messages') 
-    //         let isUnsubscribed = false;
+        const fetchUsersMessages = ()=> {
+            const db = getFirestore(app);
+            const users = collection(db, 'messages') 
+            let isUnsubscribed = false;
             
-    //         const unsub = onSnapshot(users, (result)=>{
-    //             if (isUnsubscribed) return;
-    //             const data = result.docs.map(item => item.data());
+            const unsub = onSnapshot(users, (result)=>{
+                if (isUnsubscribed) return;
+                const data = result.docs.map(item => item.data());
+                const arrOfFilter = [];
+                for(let i = 0; i < onlyID?.length; i++){
+                    const filtered = data.filter(item => onlyID[i] && item.uid1 === onlyID[i] && item.uid2 === details.myUID || onlyID[i] && item.uid2 === onlyID[i] && item.uid1 === details.myUID);
+                    arrOfFilter.push(filtered)
+                }
 
-    //             const arrOfFilter = [];
-    //             for(let i = 0; i < onlyID?.length; i++){
-    //                 const filtered = data.filter(item => item.uid1 === onlyID[i] || item.uid2 === onlyID[i]);
-    //                 arrOfFilter.push(filtered)
-    //             }
-
-    //             setNoOfUnseenMsgs(arrOfFilter);
-    //         })
+                setNoOfUnseenMsgs(arrOfFilter);
+            })
         
-    //         return () => {
-    //             isUnsubscribed = true;
-    //             unsubscribe();
-    //         }
-    //     }
-    //     fetchUsersMessages();
+            return () => {
+                isUnsubscribed = true;
+                unsubscribe();
+            }
+        }
+        fetchUsersMessages();
 
-    // }, [usersList])
+    }, [usersList])
+
+    const MapOfArray = [].concat.apply([], noOfUnseenMsgs);    
 
     useEffect(()=>{
         fetchData().then(res => {
@@ -148,90 +148,7 @@ const Message = () => {
         return Math.floor(Math.random() * randomURL.length);
     }
 
-    const message = [
-        {
-            img: AdilURL,
-            name: "Alex Linderson",
-            message: "How are you today?",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: 3,
-            isActive: true,
-            recipientUid: "23"
-        },
-        {
-            img: marianaURL,
-            name: "Team Align",
-            message: "Dont miss to attend the meeting",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: 4,
-            isActive: true,
-            recipientUid: "26"
-        },
-        {
-            img: deanURL,
-            name: "John Abraham",
-            message: "Hey! Can you join the meeting?",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: false,
-            recipientUid: "30"
-        },
-        {
-            img: AdilURL,
-            name: "Sabila Sayma",
-            message: "How are you today?",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: false,
-            recipientUid: "3"
-        },
-        {
-            img: marianaURL,
-            name: "John Borini",
-            message: "Have a good ay",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: true,
-            recipientUid: "93"
-        },
-        {
-            img: deanURL,
-            name: "Sabila Sayma",
-            message: "How are you today?",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: false,
-            recipientUid: "3"
-        },
-        {
-            img: AdilURL,
-            name: "John Borini",
-            message: "Have a good ay",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: true,
-            recipientUid: "93"
-        },
-        {
-            img: marianaURL,
-            name: "Sabila Sayma",
-            message: "How are you today?",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: false,
-            recipientUid: "3"
-        },
-        {
-            img: deanURL,
-            name: "John Borini",
-            message: "Have a good ay",
-            timeSent: "2 min ago",
-            noOfUnreadMessages: "",
-            isActive: true,
-            recipientUid: "93"
-        },
-    ]
-
+    
     useEffect(()=>{
         FetchRealTimeUpdate('msgUser', setUsersList);
     }, [])
@@ -281,13 +198,11 @@ const Message = () => {
         <RenderHomeBackground>
             
             {usersInfo &&  usersInfo.map((person, id) => {
-                // const newArr = [];
-                // for(let i = 0; i < noOfUnseenMsgs.length; i++){
-                //     console.log(noOfUnseenMsgs[i])
-                //     const filter = noOfUnseenMsgs[i].filter(item => item.seen);
-                //     console.log(filter)
-                // }
-                // console.log(person)
+                   
+                    const newArrayForNumberOfMessages = MapOfArray.filter(item => {
+                        return (item.uid1 === details.myUID && item.uid2 === person.uid && item.senderUID !== details.myUID || item.uid2 === details.myUID && item.uid1 === person.uid && item.senderUID !== details.myUID) && !item.seen 
+                    })
+
                         return <div onClick={()=> {
                             handleNavigateToChat(person?.uid)
                             //handleNavigateToChat(person.recipientUid)
@@ -302,7 +217,7 @@ const Message = () => {
                             </div>
                             <div style={styles.timeSentDetails}>
                                 <h6 style={{fontSize: '12px'}}>{formatDate(person?.timestamp)}</h6>
-                                <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{noOfUnseenMsgs && <p style={styles.noOfUnreadMessages}>{person.noOfUnreadMessages}</p>}</div>
+                                <div style={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}><div></div>{newArrayForNumberOfMessages.length > 0 && <p style={styles.noOfUnreadMessages}>{newArrayForNumberOfMessages.length}</p>}</div>
                             </div>
                         </div>
                     })}

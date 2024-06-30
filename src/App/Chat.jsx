@@ -30,7 +30,11 @@ const Chat = () => {
         const messagesLength = messages?.length;
         setNumber(prev => prev + 1);
         if(number > 1 && (messages[messagesLength - 1].senderUID === id)) return
-        return reff.current.scrollTo(0, reff.current.scrollHeight);
+        return reff.current.scrollTo({
+            left:0, 
+            top: reff.current.scrollHeight,
+            // behaviour: 'instant'
+        });
       }, [messages])
     // console.log(messages);
 

@@ -6,19 +6,26 @@ const ViewMessage = ({ data, group }) => {
     
     const { details: { myUID } } = useAuthProvider();
     const [ inView, setInview ] = useState(false)
+    const [count, setCount] = useState(0);
+    //utilize the count to track if the image should be loaded or not.
+    //this will make it not to download too much resources in the 
+    //background
     const ref = useRef(null);
     
-
     let callback = (entries, observer) => {
       entries.forEach((entry) => {
         if(entry.isIntersecting ){
-          // setInview(true);
+          setInview(true);
+          setCount(prev => prev + 1)
         }
       });
     };
- 
+
+  
     const updateIfMessageIsSeen = () => {
-      if(!inView || !data?.seen || myUID === data?.senderUID) return
+          // if(!inView || data?.seen || myUID === data?.senderUID) return
+      if(!inView || data.seen || myUID === data.senderUID ) return
+      console.log('viewing...')
       updateDocument(inView, data?.id)
     }
 
@@ -32,7 +39,7 @@ const ViewMessage = ({ data, group }) => {
 
     useEffect(()=> {
       updateIfMessageIsSeen();
-    }, [inView])
+    }, [inView, data])
 
     const msg = data;
     // console.log(msg)
@@ -45,7 +52,7 @@ const ViewMessage = ({ data, group }) => {
             <div style={{fontWeight:"lighter", fontSize:"0.8em"}}>{msg?.senderName}</div>
             </div>
             {msg?.type === "msg" && <p className="message--content" style={{background:"#3D4A7A", color: "#FFFFFF", fontWeight: '400', padding: "10px", borderRadius:"10px 0 10px 10px ",width: "fit-content"}}>{msg?.content}</p> }
-            {msg?.type === "audio" && <audio style={{background:"#3D4A7A", color:"transparent", padding: "10px", borderRadius:  "10px 0 10px 10px "  }} src={msg?.content} controls></audio>}
+            {msg?.type === "audio" && count > 0 && <audio style={{background:"#3D4A7A", color:"transparent", padding: "10px", borderRadius:  "10px 0 10px 10px "  }} src={msg?.content} controls></audio>}
             {msg?.type === "image" && <img style={{borderRadius: msg?.senderId === myUID ? "10px 0 10px 10px " : "0 10px 10px 10px"}} src={msg?.content} alt={msg?.content} />}
             <p style={{marginLeft: "auto", width: "fit-content"}}>{msg?.timeSent}</p>
             </div>
